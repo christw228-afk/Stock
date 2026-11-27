@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>台股每日主力籌碼分點監控報表 (2026-11-24)</title>
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --red: #dc2626;
+      --green: #16a34a;
+      --amber: #d97706;
+      --blue: #2563eb;
+      --purple: #7c3aed;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: "Microsoft JhengHei", "Noto Sans TC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .container { max-width: 1460px; margin: 0 auto; }
+    .page-header { margin-bottom: 18px; }
+    .page-header h1 { margin: 0; font-size: 23px; }
+    .page-subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .kpi-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 13px 15px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .kpi-label { font-size: 12px; color: var(--muted); }
+    .kpi-value { font-size: 22px; font-weight: 700; margin-top: 3px; }
+    .kpi-danger { color: var(--red); }
+    .kpi-warn { color: var(--amber); }
+    .kpi-ok { color: var(--green); }
+    .global-alert { border-radius: 10px; padding: 13px 18px; margin-bottom: 12px; border: 1px solid; }
+    .alert-danger { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+    .alert-foreign { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+    .alert-buy { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
+    .alert-safe { background: #f0fdf4; border-color: #bbf7d0; color: #166534; }
+    .global-alert-title { font-weight: 700; font-size: 14.5px; margin-bottom: 4px; }
+    .global-alert ul { margin: 6px 0 0 20px; padding: 0; font-size: 13.5px; }
+    .global-alert p { margin: 4px 0 0; }
+    .nav-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .pill {
+      text-decoration: none; padding: 5px 12px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; border: 1px solid var(--border);
+      background: var(--card); color: var(--text);
+    }
+    .pill-alert { border-color: #fca5a5; background: #fef2f2; color: #b91c1c; }
+    .pill-div { border-color: #fcd34d; background: #fffbeb; color: #92400e; }
+    .pill-buy { border-color: #93c5fd; background: #eff6ff; color: #1d4ed8; }
+    .stock-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; margin-bottom: 22px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04); overflow: hidden;
+    }
+    .card-header { padding: 14px 18px; border-bottom: 1px solid var(--border); background: #f8fafc; }
+    .card-title-row {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 10px; margin-bottom: 6px;
+    }
+    .card-title-row h2 { margin: 0; font-size: 19px; color: #0f172a; }
+    .today-quote { font-size: 13.5px; font-weight: 500; color: #334155; margin-left: 10px; }
+    .status-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .status-pill { padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .status-danger { background: #fee2e2; color: #b91c1c; }
+    .status-div { background: #fef3c7; color: #92400e; }
+    .status-buy { background: #dbeafe; color: #1d4ed8; }
+    .status-warn { background: #ffedd5; color: #9a3412; }
+    .status-muted { background: #f1f5f9; color: #475569; }
+    .status-ok { background: #dcfce7; color: #166534; }
+    .card-meta { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: #475569; }
+    .hold-total { color: var(--purple); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    th { background: #f8fafc; color: #475569; font-weight: 700; white-space: nowrap; text-align: left; }
+    .col-right { text-align: right; font-variant-numeric: tabular-nums; }
+    .col-center { text-align: center; }
+    .row-alert { background: #fff7f7; }
+    .broker-name { font-weight: 700; font-size: 13.5px; white-space: nowrap; }
+    .hold-num { color: var(--purple); font-size: 14.5px; }
+    .bar-track { width: 82px; height: 5px; background: #e2e8f0; border-radius: 3px; margin-left: auto; margin-top: 4px; }
+    .bar-fill { height: 100%; background: var(--purple); border-radius: 3px; }
+    .num-pos { color: var(--red); font-weight: 700; }
+    .num-neg { color: var(--green); font-weight: 700; }
+    .num-zero { color: var(--muted); }
+    .sub-pct { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 5px; font-size: 11px; font-weight: 700; }
+    .badge-star { background: #fee2e2; color: #b91c1c; }
+    .badge-mid { background: #fef3c7; color: #92400e; }
+    .badge-short { background: #f1f5f9; color: #475569; }
+    .badge-geo { background: #dbeafe; color: #1d4ed8; margin-left: 4px; }
+    .badge-ht { background: #f1f5f9; color: #64748b; margin-left: 4px; border: 1px solid #cbd5e1; }
+    .tag-row { margin-top: 3px; display: flex; flex-wrap: wrap; gap: 3px; }
+    .tag-mini { background: #f1f5f9; color: #475569; font-size: 10.5px; padding: 1px 5px; border-radius: 4px; }
+    .tier-tag { font-size: 11px; font-weight: 700; margin-top: 2px; white-space: nowrap; }
+    .tier-doubled { color: #991b1b; }
+    .tier-high { color: #dc2626; }
+    .tier-warn { color: #d97706; }
+    .tier-trapped { color: #0284c7; }
+    .cell-alert { color: #b91c1c; font-weight: 700; font-size: 12px; }
+    .cell-buy { color: #1d4ed8; font-weight: 700; font-size: 12px; }
+    .cell-ht { color: #64748b; font-size: 12px; }
+    .cell-ok { color: var(--green); font-weight: 600; }
+    .foreign-box { border-top: 2px solid #e2e8f0; background: #f8fafc; }
+    .foreign-box summary { padding: 9px 18px; cursor: pointer; font-weight: 700; font-size: 13px; color: #1e40af; }
+    .excluded-box { padding: 9px 18px; background: #fafafa; font-size: 12px; color: var(--muted); }
+    .excluded-box summary { cursor: pointer; font-weight: 600; }
+    .excluded-box ul { margin: 6px 0 2px 18px; padding: 0; }
+    .excluded-none { padding: 9px 18px; font-size: 12px; color: var(--muted); background: #fafafa; }
+    .legend { font-size: 12px; color: var(--muted); margin-top: 8px; text-align: right; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h1>台股每日主力籌碼分點監控報表（前5大本土主力 ＋ 外資觀察區）</h1>
+      <div class="page-subtitle">資料日期：2026-11-24 ｜ 報表產生時間：2026-11-24 22:54:30 ｜ 紅字買超/上漲、綠字賣超/下跌 ｜ 名次依目前持有張數排序</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">監控股票總數</div>
+        <div class="kpi-value">3 檔</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">本土大單賣出警示</div>
+        <div class="kpi-value kpi-ok">0 檔</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">外資分點賣出警示</div>
+        <div class="kpi-value kpi-warn">1 檔</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">主力持續建倉加碼</div>
+        <div class="kpi-value" style="color: var(--blue);">1 檔</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">籌碼轉向散戶 (外資賣+融資增)</div>
+        <div class="kpi-value kpi-danger">1 檔</div>
+      </div>
+    </div>
+
+    
+        <div class="global-alert alert-foreign">
+          <div class="global-alert-title">🌐 外資分點賣出與籌碼流向警示（共 2 項）</div>
+          <ul><li><strong>2466 冠西電</strong>：⚠️ 籌碼轉向散戶：外資當日賣超 1,365 張、融資增加 +161 張</li><li><strong>2466 冠西電</strong>：官方三大法人合計賣超 1,194 張 (佔當日量 12.7%：外資 -1,365 / 投信 +170)</li></ul>
+        </div>
+        
+
+        <div class="global-alert alert-buy">
+          <div class="global-alert-title">📈 主力持續建倉 / 加碼通知（共 4 項）</div>
+          <ul><li><strong>8099 大世科</strong>：外資 [摩根大通] 連續 3 天淨買(淨買超169張)</li><li><strong>8099 大世科</strong>：外資 [新加坡商瑞銀] 連續 2 天淨買(淨買超101張)</li><li><strong>8099 大世科</strong>：外資 [美商高盛] 單日淨買超 64 張 (佔當日量 11.6%、買前持股 45.4%)</li><li><strong>8099 大世科</strong>：外資 [美商高盛] 連續 2 天淨買(淨買超119張)</li></ul>
+        </div>
+        
+
+    <div class="nav-pills"><a class="pill pill-alert" href="#stock-2466">🚨 2466 冠西電</a><a class="pill pill-buy" href="#stock-8099">📈 8099 大世科</a><a class="pill pill-ok" href="#stock-3685">✅ 3685 元創精密</a></div>
+
+    
+            <section class="stock-card" id="stock-2466">
+              <div class="card-header">
+                <div class="card-title-row">
+                  <h2>2466 冠西電
+                    <span class="today-quote">收盤 <strong>383.00</strong> (<span class="num-neg">-9.99%</span>) ｜ 量 <strong>9,392 張</strong> ｜ 個股均價 423.00</span>
+                  </h2>
+                  <div class="status-group"><span class="status-pill status-danger">🚨 大單賣出警示</span> <span class="status-pill status-warn">⚠️ 籌碼轉向散戶（外資賣＋融資增）</span></div>
+                </div>
+                <div class="card-meta">
+                  <span>📅 資料日：<strong>2026-11-24</strong></span>
+                  <span>📈 波段低點：<strong>2026-06-08</strong> (40.15) → 累計 <span class="num-pos">+853.92%</span></span>
+                  <span>🔍 整理期觀察起點：<strong>2026-05-27</strong></span>
+                  <span>🏦 前5大本土主力持有(依持股排序)：<strong class="hold-total">5,600 張</strong>（佔波段成交 <strong>2.28%</strong> ｜ 佔股本 <strong>3.23%</strong>）</span>
+                </div>
+                <div class="card-meta" style="margin-top:4px;"><span>💳 融資：<strong>5,744 張</strong> (<span class="num-pos">+161</span>, 佔股本 3.35%)</span><span>🏦 三大法人當日：外資 <span class="num-neg">-1,365</span> ｜ 投信 <span class="num-pos">+170</span> ｜ 自營 +1</span><span>🔒 融券：<strong>873 張</strong> (+71)</span><span>🏛️ 集保大戶(2026/11/20)：<strong>73.46%</strong> (<span class="num-neg">週變 -0.84%</span>) ｜ 集中度 85.50% (-0.71%)</span></div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+                    
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">康和-台中  </div></td>
+              <td><div class="tag-row"><span class="tag-mini">120日#1</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">2,029</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,4.1 9.6,3.0 17.1,3.0 24.7,3.0 32.2,3.0 39.8,3.0 47.3,5.3 54.9,5.3 62.4,8.7 70.0,19.0" /><circle cx="70.0" cy="19.0" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -13張</div></td>
+              <td class="col-right">
+                <div>85.18</div>
+                <div class="sub-pct">個股均價 423.0 (+396.6%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+349.6%</span>
+                <div class="tier-tag tier-doubled">🔥 獲利&gt;100% 翻倍</div>
+              </td>
+              <td class="col-right num-pos">13</td>
+              <td class="col-right num-neg">22</td>
+              <td class="col-right"><span class="num-neg">賣超 -9</span><div class="sub-pct">持股 -0.4% · 量 -0.1%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 2 天</span><div class="sub-pct">(-12張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>2</strong></td>
+              <td><div class="broker-name">凱基-中山  </div></td>
+              <td><div class="tag-row"><span class="tag-mini">120日#3</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">1,248</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:61.5%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,16.3 9.6,19.0 17.1,3.0 24.7,5.7 32.2,5.7 39.8,5.7 47.3,5.7 54.9,5.7 62.4,5.7 70.0,5.7" /><circle cx="70.0" cy="5.7" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +4張</div></td>
+              <td class="col-right">
+                <div>88.60</div>
+                <div class="sub-pct">個股均價 423.0 (+377.4%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+332.3%</span>
+                <div class="tier-tag tier-doubled">🔥 獲利&gt;100% 翻倍</div>
+              </td>
+              <td class="col-right num-pos">1</td>
+              <td class="col-right num-neg">1</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>3</strong></td>
+              <td><div class="broker-name">台灣企銀-北高雄  </div></td>
+              <td><div class="tag-row"><span class="tag-mini">120日#5</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">917</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:45.2%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 9.6,19.0 17.1,6.2 24.7,6.2 32.2,6.2 39.8,6.2 47.3,6.2 54.9,6.2 62.4,6.2 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +5張</div></td>
+              <td class="col-right">
+                <div>91.44</div>
+                <div class="sub-pct">個股均價 423.0 (+362.6%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+318.9%</span>
+                <div class="tier-tag tier-doubled">🔥 獲利&gt;100% 翻倍</div>
+              </td>
+              <td class="col-right num-pos">1</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-pos">買超 +1</span><div class="sub-pct">持股 +0.1% · 量 +0.0%</div></td>
+              <td class="col-center"><span class="num-pos">連買 1 天</span><div class="sub-pct">(+1張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>4</strong></td>
+              <td><div class="broker-name">兆豐-台中  </div></td>
+              <td><span class="badge badge-mid">雙週期</span><div class="tag-row"><span class="tag-mini">60日#1</span> <span class="tag-mini">120日#6</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">746</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:36.8%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,3.0 9.6,19.0 17.1,13.1 24.7,13.1 32.2,13.1 39.8,13.1 47.3,13.1 54.9,13.1 62.4,13.1 70.0,13.1" /><circle cx="70.0" cy="13.1" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -38張</div></td>
+              <td class="col-right">
+                <div>268.61</div>
+                <div class="sub-pct">個股均價 423.0 (+57.5%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+42.6%</span>
+                <div class="tier-tag tier-warn">⚠️ 獲利&gt;30% 注意</div>
+              </td>
+              <td class="col-right num-pos">10</td>
+              <td class="col-right num-neg">10</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>5</strong></td>
+              <td><div class="broker-name">美好  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#12</span> <span class="tag-mini">60日#5</span> <span class="tag-mini">120日#7</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">660</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:32.5%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 9.6,19.0 17.1,11.0 24.7,11.0 32.2,11.0 39.8,8.3 47.3,8.3 54.9,5.7 62.4,5.7 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +12張</div></td>
+              <td class="col-right">
+                <div>123.37</div>
+                <div class="sub-pct">個股均價 423.0 (+242.9%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+210.4%</span>
+                <div class="tier-tag tier-doubled">🔥 獲利&gt;100% 翻倍</div>
+              </td>
+              <td class="col-right num-pos">4</td>
+              <td class="col-right num-neg">2</td>
+              <td class="col-right"><span class="num-pos">買超 +2</span><div class="sub-pct">持股 +0.3% · 量 +0.0%</div></td>
+              <td class="col-center"><span class="num-pos">連買 1 天</span><div class="sub-pct">(+2張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+                  </tbody>
+                </table>
+              </div>
+              
+            <details class="foreign-box" open>
+              <summary>🌐 外資分點觀察區（共 1 家，不列入隔日沖排除，警示已計入總覽）</summary>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">美商高盛  <span class="badge badge-ht" title="淨買比 0.01 (&lt;0.20)、隔日反向率 63% (&gt;60%)">⚡高周轉/避險</span></div></td>
+              <td><div class="tag-row"><span class="tag-mini">120日#11</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">470</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,7.8 9.6,3.0 17.1,10.2 24.7,14.3 32.2,14.5 39.8,14.1 47.3,14.8 54.9,14.8 62.4,14.8 70.0,19.0" /><circle cx="70.0" cy="19.0" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -289張</div></td>
+              <td class="col-right">
+                <div>408.91</div>
+                <div class="sub-pct">個股均價 423.0 (+3.5%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-neg">-6.3%</span>
+                
+              </td>
+              <td class="col-right num-pos">81</td>
+              <td class="col-right num-neg">189</td>
+              <td class="col-right"><span class="num-neg">賣超 -107</span><div class="sub-pct">持股 -18.5% · 量 -1.1%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 2 天</span><div class="sub-pct">(-108張)</div></td>
+              <td><span class="cell-ht">⚡ 高周轉/避險（不計警示）</span></td>
+            </tr>
+            </tbody>
+                </table>
+              </div>
+            </details>
+            
+              
+            <details class="excluded-box">
+              <summary>已依個股行為排除 4 家本土隔日沖分點（點擊展開明細）</summary>
+              <ul><li><strong>新光</strong>（區間淨買 1,433 張）：淨買比 0.00 (&lt;0.20)、隔日反向率 85% (&gt;60%)、平均持有 0.5 天 (&lt;=2天)</li><li><strong>兆豐-南門</strong>（區間淨買 1,203 張）：淨買比 0.08 (&lt;0.20)、平均持有 1.8 天 (&lt;=2天)</li><li><strong>元大證券</strong>（區間淨買 311 張）：淨買比 0.01 (&lt;0.20)、隔日反向率 75% (&gt;60%)、平均持有 0.4 天 (&lt;=2天)</li><li><strong>大昌-樹林</strong>（區間淨買 231 張）：淨買比 0.01 (&lt;0.20)、隔日反向率 87% (&gt;60%)</li></ul>
+            </details>
+            
+            </section>
+            
+            <section class="stock-card" id="stock-8099">
+              <div class="card-header">
+                <div class="card-title-row">
+                  <h2>8099 大世科
+                    <span class="today-quote">收盤 <strong>154.00</strong> (<span class="num-pos">+10.00%</span>) ｜ 量 <strong>554 張</strong> ｜ 個股均價 153.75</span>
+                  </h2>
+                  <div class="status-group"><span class="status-pill status-buy">📈 主力持續建倉加碼</span></div>
+                </div>
+                <div class="card-meta">
+                  <span>📅 資料日：<strong>2026-11-24</strong></span>
+                  <span>📈 波段低點：<strong>2026-07-29</strong> (52.24) → 累計 <span class="num-pos">+194.77%</span></span>
+                  <span>🔍 整理期觀察起點：<strong>2026-06-15</strong></span>
+                  <span>🏦 前5大本土主力持有(依持股排序)：<strong class="hold-total">3,406 張</strong>（佔波段成交 <strong>4.70%</strong> ｜ 佔股本 <strong>3.40%</strong>）</span>
+                </div>
+                <div class="card-meta" style="margin-top:4px;"><span>💳 融資：<strong>14,431 張</strong> (<span class="num-pos">+70</span>, 佔股本 14.42%)</span><span>🏦 三大法人當日：外資 <span class="num-pos">+137</span> ｜ 投信 <span class="num-zero">+0</span> ｜ 自營 +0</span><span>🔒 融券：<strong>249 張</strong> (+26)</span><span>🏛️ 集保大戶(2026/11/20)：<strong>78.49%</strong> (<span class="num-neg">週變 -0.86%</span>) ｜ 集中度 84.43% (-0.38%)</span></div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+                    
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">國票-南京  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#1</span> <span class="tag-mini">60日#1</span> <span class="tag-mini">120日#2</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">1,004</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,15.8 9.6,17.4 17.1,19.0 24.7,19.0 32.2,19.0 39.8,17.4 47.3,7.8 54.9,9.4 62.4,3.0 70.0,9.4" /><circle cx="70.0" cy="9.4" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +4張</div></td>
+              <td class="col-right">
+                <div>102.62</div>
+                <div class="sub-pct">個股均價 153.8 (+49.8%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+50.1%</span>
+                <div class="tier-tag tier-high">🔴 獲利&gt;50% 警戒</div>
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">4</td>
+              <td class="col-right"><span class="num-neg">賣超 -4</span><div class="sub-pct">持股 -0.4% · 量 -0.7%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 1 天</span><div class="sub-pct">(-4張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>2</strong></td>
+              <td><div class="broker-name">第一金  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#3</span> <span class="tag-mini">60日#3</span> <span class="tag-mini">120日#4</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">658</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:65.5%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,4.0 9.6,4.0 17.1,3.5 24.7,3.5 32.2,3.0 39.8,19.0 47.3,10.2 54.9,12.3 62.4,15.9 70.0,18.5" /><circle cx="70.0" cy="18.5" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -28張</div></td>
+              <td class="col-right">
+                <div>114.44</div>
+                <div class="sub-pct">個股均價 153.8 (+34.4%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+34.6%</span>
+                <div class="tier-tag tier-warn">⚠️ 獲利&gt;30% 注意</div>
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">5</td>
+              <td class="col-right"><span class="num-neg">賣超 -5</span><div class="sub-pct">持股 -0.8% · 量 -0.9%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 3 天</span><div class="sub-pct">(-16張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>3</strong></td>
+              <td><div class="broker-name">德信  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#4</span> <span class="tag-mini">60日#4</span> <span class="tag-mini">120日#5</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">616</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:61.4%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 9.6,19.0 17.1,18.0 24.7,18.0 32.2,18.0 39.8,18.0 47.3,3.5 54.9,3.5 62.4,3.0 70.0,3.5" /><circle cx="70.0" cy="3.5" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +32張</div></td>
+              <td class="col-right">
+                <div>108.02</div>
+                <div class="sub-pct">個股均價 153.8 (+42.3%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+42.6%</span>
+                <div class="tier-tag tier-warn">⚠️ 獲利&gt;30% 注意</div>
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">1</td>
+              <td class="col-right"><span class="num-neg">賣超 -1</span><div class="sub-pct">持股 -0.2% · 量 -0.2%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 1 天</span><div class="sub-pct">(-1張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>4</strong></td>
+              <td><div class="broker-name">統一-永和  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#5</span> <span class="tag-mini">60日#5</span> <span class="tag-mini">120日#6</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">600</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:59.8%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,3.0 9.6,3.0 17.1,3.0 24.7,3.0 32.2,3.0 39.8,19.0 47.3,19.0 54.9,19.0 62.4,19.0 70.0,19.0" /><circle cx="70.0" cy="19.0" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -1張</div></td>
+              <td class="col-right">
+                <div>127.20</div>
+                <div class="sub-pct">個股均價 153.8 (+20.9%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+21.1%</span>
+                
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>5</strong></td>
+              <td><div class="broker-name">華南永昌  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#9</span> <span class="tag-mini">60日#6</span> <span class="tag-mini">120日#7</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">528</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:52.6%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 9.6,17.5 17.1,3.0 24.7,4.0 32.2,4.5 39.8,5.2 47.3,5.1 54.9,5.2 62.4,5.9 70.0,5.9" /><circle cx="70.0" cy="5.9" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +105張</div></td>
+              <td class="col-right">
+                <div>152.16</div>
+                <div class="sub-pct">個股均價 153.8 (+1.0%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+1.2%</span>
+                
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+                  </tbody>
+                </table>
+              </div>
+              
+            <details class="foreign-box" open>
+              <summary>🌐 外資分點觀察區（共 4 家，不列入隔日沖排除，警示已計入總覽）</summary>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">台灣摩根士丹利  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#2</span> <span class="tag-mini">60日#2</span> <span class="tag-mini">120日#1</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">1,035</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 9.6,18.6 17.1,17.0 24.7,17.3 32.2,18.1 39.8,8.2 47.3,10.6 54.9,4.8 62.4,3.0 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +448張</div></td>
+              <td class="col-right">
+                <div>150.15</div>
+                <div class="sub-pct">個股均價 153.8 (+2.4%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+2.6%</span>
+                
+              </td>
+              <td class="col-right num-pos">7</td>
+              <td class="col-right num-neg">8</td>
+              <td class="col-right"><span class="num-neg">賣超 -1</span><div class="sub-pct">持股 -0.1% · 量 -0.2%</div></td>
+              <td class="col-center"><span class="num-neg">連賣 1 天</span><div class="sub-pct">(-1張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>2</strong></td>
+              <td><div class="broker-name">摩根大通  </div></td>
+              <td><span class="badge badge-star">★ 三週期共振</span><div class="tag-row"><span class="tag-mini">20日#10</span> <span class="tag-mini">60日#12</span> <span class="tag-mini">120日#3</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">766</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:74.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,17.6 9.6,15.7 17.1,18.7 24.7,19.0 32.2,18.8 39.8,9.0 47.3,15.8 54.9,6.8 62.4,3.1 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +193張</div></td>
+              <td class="col-right">
+                <div>146.34</div>
+                <div class="sub-pct">個股均價 153.8 (+5.1%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+5.2%</span>
+                
+              </td>
+              <td class="col-right num-pos">1</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-pos">買超 +1</span><div class="sub-pct">持股 +0.1% · 量 +0.2%</div></td>
+              <td class="col-center"><span class="num-pos">連買 3 天</span><div class="sub-pct">(+169張)</div></td>
+              <td><div class="cell-buy">📈 連續 3 天淨買(淨買超169張)</div></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>3</strong></td>
+              <td><div class="broker-name">新加坡商瑞銀  </div></td>
+              <td><span class="badge badge-mid">雙週期</span><div class="tag-row"><span class="tag-mini">60日#13</span> <span class="tag-mini">120日#14</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">281</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:27.1%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,13.4 9.6,12.4 17.1,19.0 24.7,19.0 32.2,15.4 39.8,4.5 47.3,3.0 54.9,14.3 62.4,8.1 70.0,6.6" /><circle cx="70.0" cy="6.6" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +89張</div></td>
+              <td class="col-right">
+                <div>142.86</div>
+                <div class="sub-pct">個股均價 153.8 (+7.6%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+7.8%</span>
+                
+              </td>
+              <td class="col-right num-pos">20</td>
+              <td class="col-right num-neg">1</td>
+              <td class="col-right"><span class="num-pos">買超 +19</span><div class="sub-pct">持股 +7.2% · 量 +3.4%</div></td>
+              <td class="col-center"><span class="num-pos">連買 2 天</span><div class="sub-pct">(+101張)</div></td>
+              <td><div class="cell-buy">📈 連續 2 天淨買(淨買超101張)</div></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>4</strong></td>
+              <td><div class="broker-name">美商高盛  </div></td>
+              <td><div class="tag-row"><span class="tag-mini">60日#14</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">205</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:19.8%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#16a34a" stroke-width="1.8" points="2.0,13.0 9.6,3.0 17.1,6.4 24.7,6.4 32.2,11.3 39.8,8.4 47.3,7.2 54.9,19.0 62.4,16.3 70.0,13.1" /><circle cx="70.0" cy="13.1" r="2.2" fill="#16a34a" /></svg><div class="sub-pct num-neg">10日 -3張</div></td>
+              <td class="col-right">
+                <div>145.49</div>
+                <div class="sub-pct">個股均價 153.8 (+5.7%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+5.8%</span>
+                
+              </td>
+              <td class="col-right num-pos">76</td>
+              <td class="col-right num-neg">12</td>
+              <td class="col-right"><span class="num-pos">買超 +64</span><div class="sub-pct">持股 +45.4% · 量 +11.6%</div></td>
+              <td class="col-center"><span class="num-pos">連買 2 天</span><div class="sub-pct">(+119張)</div></td>
+              <td><div class="cell-buy">📈 單日淨買超 64 張 (佔當日量 11.6%、買前持股 45.4%)</div><div class="cell-buy">📈 連續 2 天淨買(淨買超119張)</div></td>
+            </tr>
+            </tbody>
+                </table>
+              </div>
+            </details>
+            
+              
+            <details class="excluded-box">
+              <summary>已依個股行為排除 1 家本土隔日沖分點（點擊展開明細）</summary>
+              <ul><li><strong>統一-敦南</strong>（區間淨買 369 張）：淨買比 0.16 (&lt;0.20)、平均持有 0.8 天 (&lt;=2天)</li></ul>
+            </details>
+            
+            </section>
+            
+            <section class="stock-card" id="stock-3685">
+              <div class="card-header">
+                <div class="card-title-row">
+                  <h2>3685 元創精密
+                    <span class="today-quote">收盤 <strong>26.40</strong> (<span class="num-pos">+5.60%</span>) ｜ 量 <strong>2,181 張</strong> ｜ 個股均價 26.22</span>
+                  </h2>
+                  <div class="status-group"><span class="status-pill status-ok">✅ 主力籌碼穩定</span> <span class="status-pill status-muted">⚠️ 無明確本土主力（單家皆&lt;股本0.3%）</span></div>
+                </div>
+                <div class="card-meta">
+                  <span>📅 資料日：<strong>2026-11-24</strong></span>
+                  <span>📈 波段低點：<strong>2026-11-20</strong> (21.00) → 累計 <span class="num-pos">+25.71%</span></span>
+                  <span>🔍 整理期觀察起點：<strong>2026-11-19</strong></span>
+                  <span>🏦 前5大本土主力持有(依持股排序)：<strong class="hold-total">198 張</strong>（佔波段成交 <strong>2.44%</strong> ｜ 佔股本 <strong>0.25%</strong>）</span>
+                </div>
+                <div class="card-meta" style="margin-top:4px;"><span>💳 融資：<strong>0 張</strong> (<span class="num-zero">+0</span>, 佔股本 0.00%)</span><span>🏦 三大法人當日：外資 <span class="num-neg">-104</span> ｜ 投信 <span class="num-zero">+0</span> ｜ 自營 +0</span><span>🔒 融券：<strong>0 張</strong> (+0)</span><span>🏛️ 集保大戶(2026/11/20)：<strong>60.02%</strong> (<span class="num-pos">週變 +0.25%</span>) ｜ 集中度 61.17% (+0.21%)</span></div>
+              </div>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+                    
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">永豐金-松山  </div></td>
+              <td><span class="badge badge-short">僅20日短線</span><div class="tag-row"><span class="tag-mini">20日#9</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">71</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 24.7,19.0 47.3,3.0 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +70張</div></td>
+              <td class="col-right">
+                <div>24.14</div>
+                <div class="sub-pct">個股均價 26.2 (+8.6%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+9.4%</span>
+                
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>2</strong></td>
+              <td><div class="broker-name">兆豐-鹿港  </div></td>
+              <td><span class="badge badge-short">波段區間</span></td>
+              <td class="col-right">
+                <strong class="hold-num">35</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:49.3%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,16.3 24.7,19.0 47.3,19.0 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +35張</div></td>
+              <td class="col-right">
+                <div>26.22</div>
+                <div class="sub-pct">個股均價 26.2 (+0.0%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+0.7%</span>
+                
+              </td>
+              <td class="col-right num-pos">42</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-pos">買超 +42</span><div class="sub-pct">🆕 新進場 · 量 +1.9%</div></td>
+              <td class="col-center"><span class="num-pos">連買 1 天</span><div class="sub-pct">(+42張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>3</strong></td>
+              <td><div class="broker-name">統一-員林  </div></td>
+              <td><span class="badge badge-mid">雙週期</span><div class="tag-row"><span class="tag-mini">60日#15</span> <span class="tag-mini">120日#9</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">35</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:49.3%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 24.7,5.3 47.3,5.3 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +35張</div></td>
+              <td class="col-right">
+                <div>25.29</div>
+                <div class="sub-pct">個股均價 26.2 (+3.7%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+4.4%</span>
+                
+              </td>
+              <td class="col-right num-pos">25</td>
+              <td class="col-right num-neg">20</td>
+              <td class="col-right"><span class="num-pos">買超 +5</span><div class="sub-pct">持股 +16.7% · 量 +0.2%</div></td>
+              <td class="col-center"><span class="num-pos">連買 1 天</span><div class="sub-pct">(+5張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>4</strong></td>
+              <td><div class="broker-name">新光  </div></td>
+              <td><span class="badge badge-short">波段區間</span></td>
+              <td class="col-right">
+                <strong class="hold-num">34</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:47.9%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 24.7,19.0 47.3,8.6 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +17張</div></td>
+              <td class="col-right">
+                <div>24.51</div>
+                <div class="sub-pct">個股均價 26.2 (+7.0%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+7.7%</span>
+                
+              </td>
+              <td class="col-right num-pos">6</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-pos">買超 +6</span><div class="sub-pct">持股 +21.4% · 量 +0.3%</div></td>
+              <td class="col-center"><span class="num-pos">連買 2 天</span><div class="sub-pct">(+17張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>5</strong></td>
+              <td><div class="broker-name">玉山-台南  </div></td>
+              <td><span class="badge badge-short">僅20日短線</span><div class="tag-row"><span class="tag-mini">20日#7</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">23</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:32.4%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 24.7,19.0 47.3,13.4 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +23張</div></td>
+              <td class="col-right">
+                <div>25.50</div>
+                <div class="sub-pct">個股均價 26.2 (+2.8%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+3.5%</span>
+                
+              </td>
+              <td class="col-right num-pos">15</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-pos">買超 +15</span><div class="sub-pct">🆕 新進場 · 量 +0.7%</div></td>
+              <td class="col-center"><span class="num-pos">連買 2 天</span><div class="sub-pct">(+23張)</div></td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            
+                  </tbody>
+                </table>
+              </div>
+              
+            <details class="foreign-box" open>
+              <summary>🌐 外資分點觀察區（共 2 家，不列入隔日沖排除，警示已計入總覽）</summary>
+              <div class="table-wrap">
+                <table>
+                  
+      <thead>
+        <tr>
+          <th class="col-center">名次</th>
+          <th>主力分點</th>
+          <th>多週期交叉</th>
+          <th class="col-right">目前持有(張)</th>
+          <th class="col-center">近10日走勢</th>
+          <th class="col-right">FIFO成本 / 個股均價</th>
+          <th class="col-right">較成本高</th>
+          <th class="col-right">今日買(張)</th>
+          <th class="col-right">今日賣(張)</th>
+          <th class="col-right">今日淨買賣 (佔異動前%)</th>
+          <th class="col-center">連買/連賣</th>
+          <th>買賣/建倉訊號</th>
+        </tr>
+      </thead>
+    
+                  <tbody>
+            <tr class="">
+              <td class="col-center"><strong>1</strong></td>
+              <td><div class="broker-name">摩根大通  <span class="badge badge-ht" title="淨買比 0.03 (&lt;0.20)、隔日反向率 90% (&gt;60%)、平均持有 1.2 天 (&lt;=2天)">⚡高周轉/避險</span></div></td>
+              <td><span class="badge badge-short">僅20日短線</span><div class="tag-row"><span class="tag-mini">20日#4</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">90</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:100.0%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,10.8 24.7,19.0 47.3,9.9 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +54張</div></td>
+              <td class="col-right">
+                <div>26.05</div>
+                <div class="sub-pct">個股均價 26.2 (+0.7%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+1.3%</span>
+                
+              </td>
+              <td class="col-right num-pos">102</td>
+              <td class="col-right num-neg">54</td>
+              <td class="col-right"><span class="num-pos">買超 +48</span><div class="sub-pct">持股 +114.3% · 量 +2.2%</div></td>
+              <td class="col-center"><span class="num-pos">連買 2 天</span><div class="sub-pct">(+111張)</div></td>
+              <td><span class="cell-ht">⚡ 高周轉/避險（不計警示）</span></td>
+            </tr>
+            
+            <tr class="">
+              <td class="col-center"><strong>2</strong></td>
+              <td><div class="broker-name">港商野村  </div></td>
+              <td><span class="badge badge-short">僅20日短線</span><div class="tag-row"><span class="tag-mini">20日#15</span></div></td>
+              <td class="col-right">
+                <strong class="hold-num">34</strong>
+                <div class="bar-track"><div class="bar-fill" style="width:37.8%"></div></div>
+              </td>
+              <td class="col-center"><svg width="72" height="22" viewBox="0 0 72 22" title="近10個交易日累計持有走勢"><polyline fill="none" stroke="#dc2626" stroke-width="1.8" points="2.0,19.0 24.7,9.6 47.3,3.0 70.0,3.0" /><circle cx="70.0" cy="3.0" r="2.2" fill="#dc2626" /></svg><div class="sub-pct num-pos">10日 +17張</div></td>
+              <td class="col-right">
+                <div>23.80</div>
+                <div class="sub-pct">個股均價 26.2 (+10.2%)</div>
+              </td>
+              <td class="col-right">
+                <span class="num-pos">+10.9%</span>
+                
+              </td>
+              <td class="col-right num-pos">0</td>
+              <td class="col-right num-neg">0</td>
+              <td class="col-right"><span class="num-zero">0 (0.0%)</span></td>
+              <td class="col-center">-</td>
+              <td><span class="cell-ok">正常</span></td>
+            </tr>
+            </tbody>
+                </table>
+              </div>
+            </details>
+            
+              
+            <details class="excluded-box">
+              <summary>已依個股行為排除 2 家本土隔日沖分點（點擊展開明細）</summary>
+              <ul><li><strong>台新-信義</strong>（區間淨買 373 張）：淨買比 0.05 (&lt;0.20)、隔日反向率 71% (&gt;60%)、平均持有 1.1 天 (&lt;=2天)</li><li><strong>凱基-站前</strong>（區間淨買 209 張）：淨買比 0.02 (&lt;0.20)、隔日反向率 74% (&gt;60%)</li></ul>
+            </details>
+            
+            </section>
+            
+
+    <div class="legend">
+      台股每日主力籌碼監控系統 ｜ 連買連賣嚴格依市場交易日對齊，今日無交易即中斷
+    </div>
+  </div>
+</body>
+</html>

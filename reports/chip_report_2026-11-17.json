@@ -1,0 +1,2960 @@
+[
+  {
+    "stock_id": "2466",
+    "stock_name": "冠西電",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "2466",
+      "ticker": "2466.TW",
+      "trough_date": "2026-06-08",
+      "trough_price": 40.15,
+      "observation_start": "2026-05-27",
+      "latest_date": "2026-11-17",
+      "latest_close": 435.5,
+      "today_change_pct": 8.2,
+      "today_volume_lots": 612,
+      "today_avg_price": 423.5,
+      "wave_total_volume_lots": 234375,
+      "total_shares_lots": 173459,
+      "gain_from_trough_pct": 984.68,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "康和-台中",
+        "is_foreign": false,
+        "wave_net_lots": 2043,
+        "avg_cost": 82.35,
+        "profit_pct": 428.84,
+        "profit_tier": "doubled",
+        "is_high_profit_risk": true,
+        "today_price_vs_cost_pct": 414.27,
+        "today_buy_lots": 0,
+        "today_sell_lots": 0,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 1.9,
+        "avg_20d_sell_lots": 2.6,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          2038,
+          2038,
+          2038,
+          2040,
+          2039,
+          2042,
+          2043,
+          2043,
+          2043,
+          2043
+        ],
+        "last_10d_change": 5,
+        "period_tags": [
+          "120日#1"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 2043.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "凱基-中山",
+        "is_foreign": false,
+        "wave_net_lots": 1248,
+        "avg_cost": 88.33,
+        "profit_pct": 393.04,
+        "profit_tier": "doubled",
+        "is_high_profit_risk": true,
+        "today_price_vs_cost_pct": 379.45,
+        "today_buy_lots": 0,
+        "today_sell_lots": 0,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 1.7,
+        "avg_20d_sell_lots": 1.1,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          1246,
+          1246,
+          1246,
+          1246,
+          1245,
+          1244,
+          1243,
+          1249,
+          1248,
+          1248
+        ],
+        "last_10d_change": 2,
+        "period_tags": [
+          "120日#3"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 1248.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "兆豐-南門",
+        "is_foreign": false,
+        "wave_net_lots": 1183,
+        "avg_cost": 101.42,
+        "profit_pct": 329.4,
+        "profit_tier": "doubled",
+        "is_high_profit_risk": true,
+        "today_price_vs_cost_pct": 317.57,
+        "today_buy_lots": 14,
+        "today_sell_lots": 4,
+        "today_net_lots": 10,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.85,
+        "avg_20d_buy_lots": 5.5,
+        "avg_20d_sell_lots": 8.2,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 10,
+        "last_10d_holdings": [
+          1205,
+          1210,
+          1225,
+          1225,
+          1215,
+          1199,
+          1197,
+          1202,
+          1173,
+          1183
+        ],
+        "last_10d_change": -22,
+        "period_tags": [
+          "120日#4"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 1183.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "台灣企銀-北高雄",
+        "is_foreign": false,
+        "wave_net_lots": 916,
+        "avg_cost": 91.08,
+        "profit_pct": 378.15,
+        "profit_tier": "doubled",
+        "is_high_profit_risk": true,
+        "today_price_vs_cost_pct": 364.98,
+        "today_buy_lots": 0,
+        "today_sell_lots": 0,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 10.4,
+        "avg_20d_sell_lots": 8.9,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          913,
+          913,
+          911,
+          911,
+          911,
+          912,
+          912,
+          916,
+          916,
+          916
+        ],
+        "last_10d_change": 3,
+        "period_tags": [
+          "120日#5"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 916.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 5,
+        "name": "兆豐-台中",
+        "is_foreign": false,
+        "wave_net_lots": 746,
+        "avg_cost": 265.28,
+        "profit_pct": 64.17,
+        "profit_tier": "high",
+        "is_high_profit_risk": true,
+        "today_price_vs_cost_pct": 59.64,
+        "today_buy_lots": 0,
+        "today_sell_lots": 0,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 39.1,
+        "avg_20d_sell_lots": 37.1,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          774,
+          774,
+          784,
+          784,
+          784,
+          784,
+          724,
+          746,
+          746,
+          746
+        ],
+        "last_10d_change": -28,
+        "period_tags": [
+          "60日#2",
+          "120日#6"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 932.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "摩根大通",
+        "is_foreign": true,
+        "wave_net_lots": 738,
+        "avg_cost": 381.49,
+        "profit_pct": 14.16,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 11.01,
+        "today_buy_lots": 19,
+        "today_sell_lots": 1,
+        "today_net_lots": 18,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 2.5,
+        "avg_20d_buy_lots": 67.5,
+        "avg_20d_sell_lots": 97.5,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 157,
+        "last_10d_holdings": [
+          916,
+          938,
+          938,
+          929,
+          927,
+          746,
+          745,
+          581,
+          720,
+          738
+        ],
+        "last_10d_change": -178,
+        "period_tags": [
+          "120日#7"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 738.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 2 天淨買(淨買超157張)"
+        ]
+      },
+      {
+        "rank": 2,
+        "name": "美商高盛",
+        "is_foreign": true,
+        "wave_net_lots": 585,
+        "avg_cost": 414.44,
+        "profit_pct": 5.08,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 2.19,
+        "today_buy_lots": 4,
+        "today_sell_lots": 11,
+        "today_net_lots": -7,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -1.18,
+        "avg_20d_buy_lots": 79.7,
+        "avg_20d_sell_lots": 96.0,
+        "consecutive_net_sell_days": 3,
+        "consecutive_net_sell_lots": 297,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          760,
+          767,
+          768,
+          769,
+          764,
+          759,
+          882,
+          697,
+          592,
+          585
+        ],
+        "last_10d_change": -175,
+        "period_tags": [
+          "120日#9"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 585.0,
+        "sell_alerts": [
+          "連續 3 天淨賣(淨賣超297張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "台灣摩根士丹利",
+        "is_foreign": true,
+        "wave_net_lots": 332,
+        "avg_cost": 401.33,
+        "profit_pct": 8.51,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 5.52,
+        "today_buy_lots": 22,
+        "today_sell_lots": 16,
+        "today_net_lots": 6,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 1.84,
+        "avg_20d_buy_lots": 103.5,
+        "avg_20d_sell_lots": 101.0,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 72,
+        "last_10d_holdings": [
+          646,
+          601,
+          582,
+          578,
+          569,
+          375,
+          372,
+          260,
+          326,
+          332
+        ],
+        "last_10d_change": -314,
+        "period_tags": [
+          "60日#3",
+          "120日#13"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 415.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 2 天淨買(淨買超72張)"
+        ]
+      }
+    ],
+    "top_branches_total_lots": 6136,
+    "concentration_wave_vol_pct": 2.62,
+    "concentration_capital_pct": 3.54,
+    "has_clear_domestic_main_force": true,
+    "chip_flow": {
+      "foreign_lots": 20826,
+      "foreign_chg": 10,
+      "trust_lots": 423,
+      "trust_chg": 0,
+      "dealer_lots": 329,
+      "dealer_chg": -4,
+      "margin_balance": 5685,
+      "margin_chg": -41,
+      "margin_pct_capital": 3.32,
+      "short_balance": 1079,
+      "short_chg": -227
+    },
+    "is_chips_to_retail": false,
+    "excluded_day_traders": [
+      {
+        "name": "新光",
+        "wave_net_lots": 1411,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.012,
+          "next_day_reverse_rate": 88.9,
+          "avg_holding_days": 0.5,
+          "reasons": [
+            "淨買比 0.01 (<0.20)",
+            "隔日反向率 89% (>60%)",
+            "平均持有 0.5 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "第一金-忠孝",
+        "wave_net_lots": 489,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.14,
+          "next_day_reverse_rate": 61.1,
+          "avg_holding_days": 3.3,
+          "reasons": [
+            "淨買比 0.14 (<0.20)",
+            "隔日反向率 61% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "元大證券",
+        "wave_net_lots": 303,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.006,
+          "next_day_reverse_rate": 80.6,
+          "avg_holding_days": 0.4,
+          "reasons": [
+            "淨買比 0.01 (<0.20)",
+            "隔日反向率 81% (>60%)",
+            "平均持有 0.4 天 (<=2天)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 0,
+    "top3_net_buy_count": 0,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "divergent",
+    "should_notify_telegram": true,
+    "alerts": [],
+    "buy_alerts": [],
+    "foreign_alerts": [
+      "外資 [美商高盛] 連續 3 天淨賣(淨賣超297張)"
+    ],
+    "foreign_buy_alerts": [
+      "外資 [摩根大通] 連續 2 天淨買(淨買超157張)",
+      "外資 [台灣摩根士丹利] 連續 2 天淨買(淨買超72張)"
+    ]
+  },
+  {
+    "stock_id": "6163",
+    "stock_name": "華電網",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "6163",
+      "ticker": "6163.TWO",
+      "trough_date": "2026-11-06",
+      "trough_price": 32.7,
+      "observation_start": "2026-11-05",
+      "latest_date": "2026-11-17",
+      "latest_close": 40.85,
+      "today_change_pct": -0.85,
+      "today_volume_lots": 17293,
+      "today_avg_price": 41.99,
+      "wave_total_volume_lots": 52861,
+      "total_shares_lots": 148839,
+      "gain_from_trough_pct": 24.92,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "國泰-高雄",
+        "is_foreign": false,
+        "wave_net_lots": 221,
+        "avg_cost": 42.66,
+        "profit_pct": -4.24,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -1.57,
+        "today_buy_lots": 22,
+        "today_sell_lots": 21,
+        "today_net_lots": 1,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.45,
+        "avg_20d_buy_lots": 19.9,
+        "avg_20d_sell_lots": 3.1,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 5,
+        "consecutive_net_buy_lots": 218,
+        "last_10d_holdings": [
+          2,
+          3,
+          3,
+          3,
+          5,
+          12,
+          15,
+          220,
+          221
+        ],
+        "last_10d_change": 219,
+        "period_tags": [
+          "20日#3",
+          "60日#7",
+          "120日#9"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 331.5,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 5 天淨買(淨買超218張)"
+        ]
+      },
+      {
+        "rank": 2,
+        "name": "元大-北府",
+        "is_foreign": false,
+        "wave_net_lots": 110,
+        "avg_cost": 41.52,
+        "profit_pct": -1.61,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 1.13,
+        "today_buy_lots": 53,
+        "today_sell_lots": 41,
+        "today_net_lots": 12,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 12.24,
+        "avg_20d_buy_lots": 23.1,
+        "avg_20d_sell_lots": 5.8,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 15,
+        "last_10d_holdings": [
+          83,
+          87,
+          86,
+          84,
+          84,
+          100,
+          95,
+          98,
+          110
+        ],
+        "last_10d_change": 27,
+        "period_tags": [
+          "20日#2",
+          "60日#8",
+          "120日#8"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 165.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "元大-松江",
+        "is_foreign": false,
+        "wave_net_lots": 102,
+        "avg_cost": 42.68,
+        "profit_pct": -4.29,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -1.62,
+        "today_buy_lots": 7,
+        "today_sell_lots": 6,
+        "today_net_lots": 1,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.99,
+        "avg_20d_buy_lots": 7.4,
+        "avg_20d_sell_lots": 1.7,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 102,
+        "last_10d_holdings": [
+          2,
+          3,
+          3,
+          3,
+          3,
+          4,
+          0,
+          101,
+          102
+        ],
+        "last_10d_change": 100,
+        "period_tags": [
+          "20日#7",
+          "60日#15"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 127.5,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 2 天淨買(淨買超102張)"
+        ]
+      },
+      {
+        "rank": 4,
+        "name": "統一-台中",
+        "is_foreign": false,
+        "wave_net_lots": 99,
+        "avg_cost": 39.19,
+        "profit_pct": 4.24,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 7.14,
+        "today_buy_lots": 15,
+        "today_sell_lots": 4,
+        "today_net_lots": 11,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 12.5,
+        "avg_20d_buy_lots": 11.9,
+        "avg_20d_sell_lots": 5.7,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 11,
+        "last_10d_holdings": [
+          2,
+          7,
+          5,
+          3,
+          146,
+          136,
+          136,
+          88,
+          99
+        ],
+        "last_10d_change": 97,
+        "period_tags": [
+          "20日#6",
+          "60日#11",
+          "120日#15"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 148.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 5,
+        "name": "國票-中港",
+        "is_foreign": false,
+        "wave_net_lots": 92,
+        "avg_cost": 41.99,
+        "profit_pct": -2.71,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 0.0,
+        "today_buy_lots": 93,
+        "today_sell_lots": 0,
+        "today_net_lots": 93,
+        "is_new_position": true,
+        "today_net_pct_of_holding": null,
+        "avg_20d_buy_lots": 18.8,
+        "avg_20d_sell_lots": 0.8,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 93,
+        "last_10d_holdings": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          -1,
+          92
+        ],
+        "last_10d_change": 92,
+        "period_tags": [
+          "20日#11",
+          "120日#12"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 115.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "🆕 新進場建倉 (淨買超 93 張)",
+          "單日買進 93 張 ≥ 20日均買2倍 (19×2，淨買93)"
+        ]
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "美林",
+        "is_foreign": true,
+        "wave_net_lots": 363,
+        "avg_cost": 40.35,
+        "profit_pct": 1.24,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 4.06,
+        "today_buy_lots": 95,
+        "today_sell_lots": 176,
+        "today_net_lots": -81,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -18.24,
+        "avg_20d_buy_lots": 66.9,
+        "avg_20d_sell_lots": 45.2,
+        "consecutive_net_sell_days": 3,
+        "consecutive_net_sell_lots": 358,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          -6,
+          40,
+          293,
+          334,
+          420,
+          721,
+          701,
+          444,
+          363
+        ],
+        "last_10d_change": 369,
+        "period_tags": [
+          "20日#1",
+          "60日#1",
+          "120日#2"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 544.5,
+        "sell_alerts": [
+          "單日淨賣超 81 張 ≥ 賣前持股10% (18.2%)",
+          "連續 3 天淨賣(淨賣超358張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "新加坡商瑞銀",
+        "is_foreign": true,
+        "wave_net_lots": 187,
+        "avg_cost": 42.03,
+        "profit_pct": -2.81,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -0.1,
+        "today_buy_lots": 251,
+        "today_sell_lots": 341,
+        "today_net_lots": -90,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -32.49,
+        "avg_20d_buy_lots": 131.2,
+        "avg_20d_sell_lots": 130.0,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 342,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          -77,
+          2,
+          49,
+          193,
+          366,
+          263,
+          529,
+          277,
+          187
+        ],
+        "last_10d_change": 264,
+        "period_tags": [],
+        "period_count": 0,
+        "is_geo_broker": false,
+        "score": 187.0,
+        "sell_alerts": [
+          "單日淨賣超 90 張 ≥ 賣前持股10% (32.5%)",
+          "連續 2 天淨賣(淨賣超342張)"
+        ],
+        "buy_alerts": []
+      }
+    ],
+    "top_branches_total_lots": 624,
+    "concentration_wave_vol_pct": 1.18,
+    "concentration_capital_pct": 0.42,
+    "has_clear_domestic_main_force": false,
+    "chip_flow": {
+      "foreign_lots": 15037,
+      "foreign_chg": -910,
+      "trust_lots": 0,
+      "trust_chg": 0,
+      "dealer_lots": 0,
+      "dealer_chg": 0,
+      "margin_balance": 15480,
+      "margin_chg": 176,
+      "margin_pct_capital": 10.4,
+      "short_balance": 50,
+      "short_chg": -3
+    },
+    "is_chips_to_retail": true,
+    "excluded_day_traders": [
+      {
+        "name": "玉山-新莊",
+        "wave_net_lots": 152,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.037,
+          "next_day_reverse_rate": 76.2,
+          "avg_holding_days": 1.0,
+          "reasons": [
+            "淨買比 0.04 (<0.20)",
+            "隔日反向率 76% (>60%)",
+            "平均持有 1.0 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "中國信託-高雄",
+        "wave_net_lots": 101,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.185,
+          "next_day_reverse_rate": 75.0,
+          "avg_holding_days": 0.6,
+          "reasons": [
+            "淨買比 0.18 (<0.20)",
+            "隔日反向率 75% (>60%)",
+            "平均持有 0.6 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "新光-台南",
+        "wave_net_lots": 93,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.119,
+          "next_day_reverse_rate": 76.9,
+          "avg_holding_days": 0.8,
+          "reasons": [
+            "淨買比 0.12 (<0.20)",
+            "隔日反向率 77% (>60%)",
+            "平均持有 0.8 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "元大-竹科",
+        "wave_net_lots": 91,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.015,
+          "next_day_reverse_rate": 20.0,
+          "avg_holding_days": 1.1,
+          "reasons": [
+            "淨買比 0.02 (<0.20)",
+            "平均持有 1.1 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "台新-信義",
+        "wave_net_lots": 86,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.306,
+          "next_day_reverse_rate": 80.0,
+          "avg_holding_days": 0.3,
+          "reasons": [
+            "隔日反向率 80% (>60%)",
+            "平均持有 0.3 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "群益金鼎-建成",
+        "wave_net_lots": 74,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.336,
+          "next_day_reverse_rate": 75.0,
+          "avg_holding_days": 0.7,
+          "reasons": [
+            "隔日反向率 75% (>60%)",
+            "平均持有 0.7 天 (<=2天)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 0,
+    "top3_net_buy_count": 1,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "divergent",
+    "should_notify_telegram": true,
+    "alerts": [],
+    "buy_alerts": [
+      "第1主力 [國泰-高雄] 連續 5 天淨買(淨買超218張)",
+      "第3主力 [元大-松江] 連續 2 天淨買(淨買超102張)",
+      "第5主力 [國票-中港] 🆕 新進場建倉 (淨買超 93 張)",
+      "第5主力 [國票-中港] 單日買進 93 張 ≥ 20日均買2倍 (19×2，淨買93)"
+    ],
+    "foreign_alerts": [
+      "外資 [美林] 單日淨賣超 81 張 ≥ 賣前持股10% (18.2%)",
+      "外資 [美林] 連續 3 天淨賣(淨賣超358張)",
+      "外資 [新加坡商瑞銀] 單日淨賣超 90 張 ≥ 賣前持股10% (32.5%)",
+      "外資 [新加坡商瑞銀] 連續 2 天淨賣(淨賣超342張)",
+      "⚠️ 籌碼轉向散戶：外資當日賣超 910 張、融資增加 +176 張"
+    ],
+    "foreign_buy_alerts": []
+  },
+  {
+    "stock_id": "6209",
+    "stock_name": "今國光",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "6209",
+      "ticker": "6209.TW",
+      "trough_date": "2026-07-30",
+      "trough_price": 56.3,
+      "observation_start": "2026-07-28",
+      "latest_date": "2026-11-17",
+      "latest_close": 67.9,
+      "today_change_pct": -5.96,
+      "today_volume_lots": 6798,
+      "today_avg_price": 68.67,
+      "wave_total_volume_lots": 1097014,
+      "total_shares_lots": 180463,
+      "gain_from_trough_pct": 20.61,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "兆豐-大安",
+        "is_foreign": false,
+        "wave_net_lots": 565,
+        "avg_cost": 84.68,
+        "profit_pct": -19.82,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -18.91,
+        "today_buy_lots": 3,
+        "today_sell_lots": 0,
+        "today_net_lots": 3,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.53,
+        "avg_20d_buy_lots": 33.0,
+        "avg_20d_sell_lots": 16.2,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 53,
+        "last_10d_holdings": [
+          342,
+          434,
+          453,
+          452,
+          510,
+          512,
+          512,
+          512,
+          562,
+          565
+        ],
+        "last_10d_change": 223,
+        "period_tags": [
+          "20日#5",
+          "60日#5",
+          "120日#3"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 847.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "群益金鼎-屏東",
+        "is_foreign": false,
+        "wave_net_lots": 543,
+        "avg_cost": 71.87,
+        "profit_pct": -5.52,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -4.45,
+        "today_buy_lots": 5,
+        "today_sell_lots": 0,
+        "today_net_lots": 5,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.93,
+        "avg_20d_buy_lots": 51.8,
+        "avg_20d_sell_lots": 22.5,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 193,
+        "last_10d_holdings": [
+          -47,
+          -47,
+          -43,
+          352,
+          352,
+          352,
+          351,
+          350,
+          538,
+          543
+        ],
+        "last_10d_change": 590,
+        "period_tags": [
+          "20日#3",
+          "60日#8",
+          "120日#5"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 814.5,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 2 天淨買(淨買超193張)"
+        ]
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "台灣摩根士丹利",
+        "is_foreign": true,
+        "wave_net_lots": 4010,
+        "avg_cost": 75.36,
+        "profit_pct": -9.9,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -8.88,
+        "today_buy_lots": 123,
+        "today_sell_lots": 701,
+        "today_net_lots": -578,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -12.6,
+        "avg_20d_buy_lots": 740.0,
+        "avg_20d_sell_lots": 830.9,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 1008,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          3877,
+          3843,
+          3986,
+          4672,
+          5469,
+          4889,
+          4827,
+          5018,
+          4588,
+          4010
+        ],
+        "last_10d_change": 133,
+        "period_tags": [
+          "60日#1",
+          "120日#2"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 5012.5,
+        "sell_alerts": [
+          "單日淨賣超 578 張 ≥ 賣前持股10% (12.6%)",
+          "連續 2 天淨賣(淨賣超1,008張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "美商高盛",
+        "is_foreign": true,
+        "wave_net_lots": 2961,
+        "avg_cost": 72.95,
+        "profit_pct": -6.92,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -5.87,
+        "today_buy_lots": 176,
+        "today_sell_lots": 466,
+        "today_net_lots": -291,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -8.95,
+        "avg_20d_buy_lots": 1244.7,
+        "avg_20d_sell_lots": 1273.8,
+        "consecutive_net_sell_days": 6,
+        "consecutive_net_sell_lots": 1886,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          4892,
+          4465,
+          4288,
+          4847,
+          4209,
+          4185,
+          3684,
+          3480,
+          3252,
+          2961
+        ],
+        "last_10d_change": -1931,
+        "period_tags": [
+          "60日#2",
+          "120日#1"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 3701.2,
+        "sell_alerts": [
+          "連續 6 天淨賣(淨賣超1,886張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "摩根大通",
+        "is_foreign": true,
+        "wave_net_lots": 1201,
+        "avg_cost": 83.3,
+        "profit_pct": -18.49,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -17.56,
+        "today_buy_lots": 48,
+        "today_sell_lots": 144,
+        "today_net_lots": -96,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -7.4,
+        "avg_20d_buy_lots": 312.4,
+        "avg_20d_sell_lots": 308.5,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 242,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          1130,
+          890,
+          809,
+          738,
+          1008,
+          1051,
+          1250,
+          1443,
+          1297,
+          1201
+        ],
+        "last_10d_change": 71,
+        "period_tags": [
+          "60日#3",
+          "120日#8"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 1501.2,
+        "sell_alerts": [
+          "連續 2 天淨賣(淨賣超242張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "港商麥格理",
+        "is_foreign": true,
+        "wave_net_lots": 862,
+        "avg_cost": 112.75,
+        "profit_pct": -39.78,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -39.1,
+        "today_buy_lots": 0,
+        "today_sell_lots": 0,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 862.0,
+        "avg_20d_sell_lots": 0.0,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          862,
+          862,
+          862,
+          862,
+          862,
+          862,
+          862,
+          862,
+          862,
+          862
+        ],
+        "last_10d_change": 0,
+        "period_tags": [
+          "20日#1",
+          "60日#6",
+          "120日#4"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 1293.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 5,
+        "name": "新加坡商瑞銀",
+        "is_foreign": true,
+        "wave_net_lots": 736,
+        "avg_cost": 76.82,
+        "profit_pct": -11.61,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -10.61,
+        "today_buy_lots": 97,
+        "today_sell_lots": 286,
+        "today_net_lots": -189,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -20.43,
+        "avg_20d_buy_lots": 647.6,
+        "avg_20d_sell_lots": 669.5,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 484,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          864,
+          642,
+          975,
+          910,
+          1123,
+          1017,
+          1033,
+          1220,
+          925,
+          736
+        ],
+        "last_10d_change": -128,
+        "period_tags": [
+          "60日#7"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 736.0,
+        "sell_alerts": [
+          "單日淨賣超 189 張 ≥ 賣前持股10% (20.4%)",
+          "連續 2 天淨賣(淨賣超484張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 6,
+        "name": "美林",
+        "is_foreign": true,
+        "wave_net_lots": 288,
+        "avg_cost": 81.81,
+        "profit_pct": -17.0,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -16.06,
+        "today_buy_lots": 54,
+        "today_sell_lots": 139,
+        "today_net_lots": -85,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -22.79,
+        "avg_20d_buy_lots": 219.1,
+        "avg_20d_sell_lots": 288.6,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 299,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          1016,
+          871,
+          860,
+          862,
+          890,
+          663,
+          577,
+          587,
+          373,
+          288
+        ],
+        "last_10d_change": -728,
+        "period_tags": [
+          "60日#4"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 288.0,
+        "sell_alerts": [
+          "單日淨賣超 85 張 ≥ 賣前持股10% (22.8%)",
+          "連續 2 天淨賣(淨賣超299張)"
+        ],
+        "buy_alerts": []
+      }
+    ],
+    "top_branches_total_lots": 1108,
+    "concentration_wave_vol_pct": 0.1,
+    "concentration_capital_pct": 0.61,
+    "has_clear_domestic_main_force": true,
+    "chip_flow": {
+      "foreign_lots": 16526,
+      "foreign_chg": -1060,
+      "trust_lots": 0,
+      "trust_chg": 0,
+      "dealer_lots": 53,
+      "dealer_chg": -82,
+      "margin_balance": 13658,
+      "margin_chg": 80,
+      "margin_pct_capital": 7.51,
+      "short_balance": 551,
+      "short_chg": 190
+    },
+    "is_chips_to_retail": true,
+    "excluded_day_traders": [
+      {
+        "name": "凱基-台北",
+        "wave_net_lots": 1532,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.001,
+          "next_day_reverse_rate": 100.0,
+          "avg_holding_days": 0.9,
+          "reasons": [
+            "淨買比 0.00 (<0.20)",
+            "隔日反向率 100% (>60%)",
+            "平均持有 0.9 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "群益金鼎-中港",
+        "wave_net_lots": 613,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.155,
+          "next_day_reverse_rate": 57.1,
+          "avg_holding_days": 2.0,
+          "reasons": [
+            "淨買比 0.16 (<0.20)",
+            "平均持有 2.0 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "凱基-大安",
+        "wave_net_lots": 338,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.07,
+          "next_day_reverse_rate": 54.2,
+          "avg_holding_days": 1.9,
+          "reasons": [
+            "淨買比 0.07 (<0.20)",
+            "平均持有 1.9 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "國票-台中",
+        "wave_net_lots": 296,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.056,
+          "next_day_reverse_rate": 64.3,
+          "avg_holding_days": 4.3,
+          "reasons": [
+            "淨買比 0.06 (<0.20)",
+            "隔日反向率 64% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "台新-文心",
+        "wave_net_lots": 219,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.061,
+          "next_day_reverse_rate": 87.5,
+          "avg_holding_days": 1.7,
+          "reasons": [
+            "淨買比 0.06 (<0.20)",
+            "隔日反向率 88% (>60%)",
+            "平均持有 1.7 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "台新-新竹",
+        "wave_net_lots": 206,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.129,
+          "next_day_reverse_rate": 82.1,
+          "avg_holding_days": 3.5,
+          "reasons": [
+            "淨買比 0.13 (<0.20)",
+            "隔日反向率 82% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "中國信託-新竹",
+        "wave_net_lots": 190,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.116,
+          "next_day_reverse_rate": 63.3,
+          "avg_holding_days": 7.0,
+          "reasons": [
+            "淨買比 0.12 (<0.20)",
+            "隔日反向率 63% (>60%)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 0,
+    "top3_net_buy_count": 0,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "divergent",
+    "should_notify_telegram": true,
+    "alerts": [],
+    "buy_alerts": [
+      "第2主力 [群益金鼎-屏東] 連續 2 天淨買(淨買超193張)"
+    ],
+    "foreign_alerts": [
+      "外資 [台灣摩根士丹利] 單日淨賣超 578 張 ≥ 賣前持股10% (12.6%)",
+      "外資 [台灣摩根士丹利] 連續 2 天淨賣(淨賣超1,008張)",
+      "外資 [美商高盛] 連續 6 天淨賣(淨賣超1,886張)",
+      "外資 [摩根大通] 連續 2 天淨賣(淨賣超242張)",
+      "外資 [新加坡商瑞銀] 單日淨賣超 189 張 ≥ 賣前持股10% (20.4%)",
+      "外資 [新加坡商瑞銀] 連續 2 天淨賣(淨賣超484張)",
+      "外資 [美林] 單日淨賣超 85 張 ≥ 賣前持股10% (22.8%)",
+      "外資 [美林] 連續 2 天淨賣(淨賣超299張)",
+      "⚠️ 籌碼轉向散戶：外資當日賣超 1,060 張、融資增加 +80 張"
+    ],
+    "foreign_buy_alerts": []
+  },
+  {
+    "stock_id": "1569",
+    "stock_name": "濱川",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "1569",
+      "ticker": "1569.TWO",
+      "trough_date": "2026-07-30",
+      "trough_price": 36.35,
+      "observation_start": "2026-07-20",
+      "latest_date": "2026-11-17",
+      "latest_close": 84.5,
+      "today_change_pct": -3.54,
+      "today_volume_lots": 8255,
+      "today_avg_price": 82.25,
+      "wave_total_volume_lots": 478092,
+      "total_shares_lots": 144247,
+      "gain_from_trough_pct": 132.46,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "台新-松江",
+        "is_foreign": false,
+        "wave_net_lots": 1853,
+        "avg_cost": 78.67,
+        "profit_pct": 7.41,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 4.55,
+        "today_buy_lots": 6,
+        "today_sell_lots": 5,
+        "today_net_lots": 1,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.05,
+        "avg_20d_buy_lots": 44.9,
+        "avg_20d_sell_lots": 7.7,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 5,
+        "last_10d_holdings": [
+          1840,
+          1843,
+          1841,
+          1841,
+          1840,
+          1834,
+          1848,
+          1848,
+          1852,
+          1853
+        ],
+        "last_10d_change": 13,
+        "period_tags": [
+          "20日#5",
+          "60日#4",
+          "120日#5"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 2779.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "凱基-中港",
+        "is_foreign": false,
+        "wave_net_lots": 1802,
+        "avg_cost": 75.3,
+        "profit_pct": 12.22,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 9.23,
+        "today_buy_lots": 6,
+        "today_sell_lots": 19,
+        "today_net_lots": -13,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -0.72,
+        "avg_20d_buy_lots": 27.6,
+        "avg_20d_sell_lots": 30.1,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 13,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          1851,
+          1836,
+          1848,
+          1847,
+          1841,
+          1834,
+          1811,
+          1803,
+          1815,
+          1802
+        ],
+        "last_10d_change": -49,
+        "period_tags": [
+          "60日#5",
+          "120日#6"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 2252.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "合庫-彰化",
+        "is_foreign": false,
+        "wave_net_lots": 608,
+        "avg_cost": 86.87,
+        "profit_pct": -2.73,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -5.32,
+        "today_buy_lots": 7,
+        "today_sell_lots": 9,
+        "today_net_lots": -2,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -0.33,
+        "avg_20d_buy_lots": 19.1,
+        "avg_20d_sell_lots": 22.2,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 2,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          699,
+          696,
+          697,
+          695,
+          695,
+          604,
+          605,
+          607,
+          610,
+          608
+        ],
+        "last_10d_change": -91,
+        "period_tags": [
+          "60日#7",
+          "120日#9"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 760.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "元大-忠孝",
+        "is_foreign": false,
+        "wave_net_lots": 590,
+        "avg_cost": 91.22,
+        "profit_pct": -7.37,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -9.83,
+        "today_buy_lots": 15,
+        "today_sell_lots": 30,
+        "today_net_lots": -15,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -2.48,
+        "avg_20d_buy_lots": 35.9,
+        "avg_20d_sell_lots": 17.9,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 15,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          471,
+          525,
+          536,
+          544,
+          543,
+          537,
+          544,
+          556,
+          605,
+          590
+        ],
+        "last_10d_change": 119,
+        "period_tags": [
+          "20日#7",
+          "60日#10",
+          "120日#13"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 885.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 5,
+        "name": "玉山-左營",
+        "is_foreign": false,
+        "wave_net_lots": 534,
+        "avg_cost": 92.25,
+        "profit_pct": -8.4,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -10.84,
+        "today_buy_lots": 3,
+        "today_sell_lots": 4,
+        "today_net_lots": -1,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -0.19,
+        "avg_20d_buy_lots": 35.1,
+        "avg_20d_sell_lots": 14.8,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 1,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          502,
+          523,
+          508,
+          507,
+          506,
+          470,
+          484,
+          493,
+          535,
+          534
+        ],
+        "last_10d_change": 32,
+        "period_tags": [
+          "20日#6",
+          "60日#11",
+          "120日#8"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 801.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "美商高盛",
+        "is_foreign": true,
+        "wave_net_lots": 3489,
+        "avg_cost": 101.17,
+        "profit_pct": -16.48,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -18.7,
+        "today_buy_lots": 346,
+        "today_sell_lots": 390,
+        "today_net_lots": -44,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -1.25,
+        "avg_20d_buy_lots": 723.6,
+        "avg_20d_sell_lots": 582.6,
+        "consecutive_net_sell_days": 3,
+        "consecutive_net_sell_lots": 673,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          873,
+          1184,
+          1151,
+          1553,
+          1553,
+          2296,
+          4162,
+          3739,
+          3533,
+          3489
+        ],
+        "last_10d_change": 2616,
+        "period_tags": [
+          "20日#1",
+          "60日#1",
+          "120日#2"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 5233.5,
+        "sell_alerts": [
+          "連續 3 天淨賣(淨賣超673張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "台灣摩根士丹利",
+        "is_foreign": true,
+        "wave_net_lots": 2183,
+        "avg_cost": 95.23,
+        "profit_pct": -11.27,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -13.63,
+        "today_buy_lots": 672,
+        "today_sell_lots": 236,
+        "today_net_lots": 436,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 24.96,
+        "avg_20d_buy_lots": 465.4,
+        "avg_20d_sell_lots": 436.4,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 436,
+        "last_10d_holdings": [
+          1441,
+          1496,
+          1521,
+          1730,
+          1720,
+          2040,
+          3188,
+          2007,
+          1747,
+          2183
+        ],
+        "last_10d_change": 742,
+        "period_tags": [
+          "20日#3",
+          "60日#3",
+          "120日#3"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 3274.5,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "單日淨買超 436 張 ≥ 買前持股10% (25.0%)"
+        ]
+      },
+      {
+        "rank": 3,
+        "name": "新加坡商瑞銀",
+        "is_foreign": true,
+        "wave_net_lots": 1937,
+        "avg_cost": 99.81,
+        "profit_pct": -15.34,
+        "profit_tier": "trapped",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -17.59,
+        "today_buy_lots": 236,
+        "today_sell_lots": 332,
+        "today_net_lots": -96,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -4.72,
+        "avg_20d_buy_lots": 445.1,
+        "avg_20d_sell_lots": 416.2,
+        "consecutive_net_sell_days": 3,
+        "consecutive_net_sell_lots": 272,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          1619,
+          2047,
+          1672,
+          1599,
+          1600,
+          2044,
+          2209,
+          2060,
+          2033,
+          1937
+        ],
+        "last_10d_change": 318,
+        "period_tags": [
+          "20日#8",
+          "60日#6",
+          "120日#4"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 2905.5,
+        "sell_alerts": [
+          "連續 3 天淨賣(淨賣超272張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "美林",
+        "is_foreign": true,
+        "wave_net_lots": 535,
+        "avg_cost": 91.65,
+        "profit_pct": -7.8,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -10.26,
+        "today_buy_lots": 102,
+        "today_sell_lots": 55,
+        "today_net_lots": 47,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 9.63,
+        "avg_20d_buy_lots": 48.0,
+        "avg_20d_sell_lots": 36.4,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 4,
+        "consecutive_net_buy_lots": 72,
+        "last_10d_holdings": [
+          491,
+          475,
+          420,
+          483,
+          484,
+          463,
+          477,
+          478,
+          488,
+          535
+        ],
+        "last_10d_change": 44,
+        "period_tags": [
+          "60日#12",
+          "120日#10"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 668.8,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "連續 4 天淨買(淨買超72張)"
+        ]
+      }
+    ],
+    "top_branches_total_lots": 5387,
+    "concentration_wave_vol_pct": 1.13,
+    "concentration_capital_pct": 3.73,
+    "has_clear_domestic_main_force": true,
+    "chip_flow": {
+      "foreign_lots": 19723,
+      "foreign_chg": 1015,
+      "trust_lots": 11,
+      "trust_chg": 0,
+      "dealer_lots": 460,
+      "dealer_chg": 4,
+      "margin_balance": 13574,
+      "margin_chg": 47,
+      "margin_pct_capital": 9.41,
+      "short_balance": 371,
+      "short_chg": -73
+    },
+    "is_chips_to_retail": false,
+    "excluded_day_traders": [
+      {
+        "name": "凱基-台北",
+        "wave_net_lots": 3240,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.047,
+          "next_day_reverse_rate": 81.2,
+          "avg_holding_days": 1.5,
+          "reasons": [
+            "淨買比 0.05 (<0.20)",
+            "隔日反向率 81% (>60%)",
+            "平均持有 1.5 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "富邦證券",
+        "wave_net_lots": 598,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.028,
+          "next_day_reverse_rate": 63.2,
+          "avg_holding_days": 2.6,
+          "reasons": [
+            "淨買比 0.03 (<0.20)",
+            "隔日反向率 63% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "群益金鼎",
+        "wave_net_lots": 597,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.034,
+          "next_day_reverse_rate": 88.9,
+          "avg_holding_days": 1.7,
+          "reasons": [
+            "淨買比 0.03 (<0.20)",
+            "隔日反向率 89% (>60%)",
+            "平均持有 1.7 天 (<=2天)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 0,
+    "top3_net_buy_count": 0,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "divergent",
+    "should_notify_telegram": true,
+    "alerts": [],
+    "buy_alerts": [],
+    "foreign_alerts": [
+      "外資 [美商高盛] 連續 3 天淨賣(淨賣超673張)",
+      "外資 [新加坡商瑞銀] 連續 3 天淨賣(淨賣超272張)"
+    ],
+    "foreign_buy_alerts": [
+      "外資 [台灣摩根士丹利] 單日淨買超 436 張 ≥ 買前持股10% (25.0%)",
+      "外資 [美林] 連續 4 天淨買(淨買超72張)"
+    ]
+  },
+  {
+    "stock_id": "2221",
+    "stock_name": "大甲",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "2221",
+      "ticker": "2221.TWO",
+      "trough_date": "2026-05-28",
+      "trough_price": 39.62,
+      "observation_start": "2026-04-15",
+      "latest_date": "2026-11-17",
+      "latest_close": 149.0,
+      "today_change_pct": -1.65,
+      "today_volume_lots": 16256,
+      "today_avg_price": 149.88,
+      "wave_total_volume_lots": 381623,
+      "total_shares_lots": 42325,
+      "gain_from_trough_pct": 276.07,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "永豐金證券",
+        "is_foreign": false,
+        "wave_net_lots": 624,
+        "avg_cost": 155.47,
+        "profit_pct": -4.16,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -3.6,
+        "today_buy_lots": 144,
+        "today_sell_lots": 152,
+        "today_net_lots": -8,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -1.27,
+        "avg_20d_buy_lots": 72.1,
+        "avg_20d_sell_lots": 75.4,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 8,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          610,
+          587,
+          589,
+          523,
+          511,
+          530,
+          657,
+          626,
+          632,
+          624
+        ],
+        "last_10d_change": 14,
+        "period_tags": [
+          "60日#2",
+          "120日#2"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 780.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "國泰證券",
+        "is_foreign": false,
+        "wave_net_lots": 537,
+        "avg_cost": 131.45,
+        "profit_pct": 13.35,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 14.02,
+        "today_buy_lots": 12,
+        "today_sell_lots": 2,
+        "today_net_lots": 10,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 1.9,
+        "avg_20d_buy_lots": 29.1,
+        "avg_20d_sell_lots": 4.2,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 10,
+        "last_10d_holdings": [
+          490,
+          495,
+          497,
+          498,
+          499,
+          494,
+          528,
+          528,
+          527,
+          537
+        ],
+        "last_10d_change": 47,
+        "period_tags": [
+          "20日#2",
+          "60日#3",
+          "120日#3"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 805.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "高橋",
+        "is_foreign": false,
+        "wave_net_lots": 167,
+        "avg_cost": 120.61,
+        "profit_pct": 23.54,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 24.27,
+        "today_buy_lots": 9,
+        "today_sell_lots": 10,
+        "today_net_lots": -1,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -0.6,
+        "avg_20d_buy_lots": 3.5,
+        "avg_20d_sell_lots": 5.0,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 1,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          184,
+          184,
+          158,
+          163,
+          160,
+          157,
+          160,
+          165,
+          168,
+          167
+        ],
+        "last_10d_change": -17,
+        "period_tags": [
+          "120日#10"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 167.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "永豐金-內湖",
+        "is_foreign": false,
+        "wave_net_lots": 154,
+        "avg_cost": 144.09,
+        "profit_pct": 3.41,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 4.02,
+        "today_buy_lots": 29,
+        "today_sell_lots": 29,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 8.1,
+        "avg_20d_sell_lots": 10.2,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          235,
+          233,
+          233,
+          235,
+          234,
+          196,
+          163,
+          162,
+          154,
+          154
+        ],
+        "last_10d_change": -81,
+        "period_tags": [
+          "60日#8",
+          "120日#9"
+        ],
+        "period_count": 2,
+        "is_geo_broker": false,
+        "score": 192.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 5,
+        "name": "元大-豐原站前",
+        "is_foreign": false,
+        "wave_net_lots": 122,
+        "avg_cost": 149.38,
+        "profit_pct": -0.25,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 0.33,
+        "today_buy_lots": 38,
+        "today_sell_lots": 16,
+        "today_net_lots": 22,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 22.0,
+        "avg_20d_buy_lots": 8.8,
+        "avg_20d_sell_lots": 7.3,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 22,
+        "last_10d_holdings": [
+          93,
+          93,
+          103,
+          103,
+          103,
+          102,
+          100,
+          100,
+          100,
+          122
+        ],
+        "last_10d_change": 29,
+        "period_tags": [
+          "60日#9",
+          "120日#11"
+        ],
+        "period_count": 2,
+        "is_geo_broker": true,
+        "score": 205.9,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "單日淨買超 22 張 ≥ 買前持股10% (22.0%)",
+          "單日買進 38 張 ≥ 20日均買2倍 (9×2，淨買22)"
+        ]
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "台灣摩根士丹利",
+        "is_foreign": true,
+        "wave_net_lots": 82,
+        "avg_cost": 149.93,
+        "profit_pct": -0.62,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -0.03,
+        "today_buy_lots": 167,
+        "today_sell_lots": 133,
+        "today_net_lots": 34,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 70.83,
+        "avg_20d_buy_lots": 160.6,
+        "avg_20d_sell_lots": 169.7,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 34,
+        "last_10d_holdings": [
+          399,
+          471,
+          482,
+          147,
+          785,
+          730,
+          223,
+          70,
+          48,
+          82
+        ],
+        "last_10d_change": -317,
+        "period_tags": [
+          "120日#8"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 82.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "單日淨買超 34 張 ≥ 買前持股10% (70.8%)"
+        ]
+      }
+    ],
+    "top_branches_total_lots": 1604,
+    "concentration_wave_vol_pct": 0.42,
+    "concentration_capital_pct": 3.79,
+    "has_clear_domestic_main_force": true,
+    "chip_flow": {
+      "foreign_lots": 1544,
+      "foreign_chg": 5,
+      "trust_lots": 0,
+      "trust_chg": 0,
+      "dealer_lots": 78,
+      "dealer_chg": -1,
+      "margin_balance": 1344,
+      "margin_chg": -57,
+      "margin_pct_capital": 3.18,
+      "short_balance": 1143,
+      "short_chg": 20
+    },
+    "is_chips_to_retail": false,
+    "excluded_day_traders": [
+      {
+        "name": "元大證券",
+        "wave_net_lots": 1113,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.026,
+          "next_day_reverse_rate": 81.5,
+          "avg_holding_days": 0.7,
+          "reasons": [
+            "淨買比 0.03 (<0.20)",
+            "隔日反向率 81% (>60%)",
+            "平均持有 0.7 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "國泰-敦南",
+        "wave_net_lots": 419,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.015,
+          "next_day_reverse_rate": 82.1,
+          "avg_holding_days": 0.8,
+          "reasons": [
+            "淨買比 0.02 (<0.20)",
+            "隔日反向率 82% (>60%)",
+            "平均持有 0.8 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "富邦-新店",
+        "wave_net_lots": 208,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.107,
+          "next_day_reverse_rate": 72.7,
+          "avg_holding_days": 2.1,
+          "reasons": [
+            "淨買比 0.11 (<0.20)",
+            "隔日反向率 73% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "國泰-新莊",
+        "wave_net_lots": 141,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.086,
+          "next_day_reverse_rate": 61.5,
+          "avg_holding_days": 2.4,
+          "reasons": [
+            "淨買比 0.09 (<0.20)",
+            "隔日反向率 62% (>60%)"
+          ]
+        }
+      },
+      {
+        "name": "統一",
+        "wave_net_lots": 88,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.009,
+          "next_day_reverse_rate": 76.9,
+          "avg_holding_days": 2.1,
+          "reasons": [
+            "淨買比 0.01 (<0.20)",
+            "隔日反向率 77% (>60%)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 0,
+    "top3_net_buy_count": 0,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "buy",
+    "should_notify_telegram": true,
+    "alerts": [],
+    "buy_alerts": [
+      "第5主力 [元大-豐原站前] 單日淨買超 22 張 ≥ 買前持股10% (22.0%)",
+      "第5主力 [元大-豐原站前] 單日買進 38 張 ≥ 20日均買2倍 (9×2，淨買22)"
+    ],
+    "foreign_alerts": [],
+    "foreign_buy_alerts": [
+      "外資 [台灣摩根士丹利] 單日淨買超 34 張 ≥ 買前持股10% (70.8%)"
+    ]
+  },
+  {
+    "stock_id": "5013",
+    "stock_name": "強新",
+    "data_date": "2026-11-17",
+    "wave_info": {
+      "stock_id": "5013",
+      "ticker": "5013.TWO",
+      "trough_date": "2026-07-22",
+      "trough_price": 23.73,
+      "observation_start": "2026-06-08",
+      "latest_date": "2026-11-17",
+      "latest_close": 66.6,
+      "today_change_pct": 9.9,
+      "today_volume_lots": 5954,
+      "today_avg_price": 63.15,
+      "wave_total_volume_lots": 118377,
+      "total_shares_lots": 133416,
+      "gain_from_trough_pct": 180.67,
+      "date_20d": "2026-10-20",
+      "date_60d": "2026-08-20",
+      "date_120d": "2026-05-26"
+    },
+    "top_branches": [
+      {
+        "rank": 1,
+        "name": "凱基-高美館",
+        "is_foreign": false,
+        "wave_net_lots": 137,
+        "avg_cost": 64.25,
+        "profit_pct": 3.66,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -1.71,
+        "today_buy_lots": 12,
+        "today_sell_lots": 141,
+        "today_net_lots": -129,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -48.5,
+        "avg_20d_buy_lots": 30.3,
+        "avg_20d_sell_lots": 23.4,
+        "consecutive_net_sell_days": 2,
+        "consecutive_net_sell_lots": 134,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          76,
+          89,
+          108,
+          103,
+          155,
+          179,
+          246,
+          271,
+          266,
+          137
+        ],
+        "last_10d_change": 61,
+        "period_tags": [
+          "20日#5",
+          "60日#5",
+          "120日#5"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 205.5,
+        "sell_alerts": [
+          "單日淨賣超 129 張 ≥ 賣前持股10% (48.5%)",
+          "單日賣出 141 張 ≥ 20日均賣2倍 (23×2，淨賣129)",
+          "連續 2 天淨賣(淨賣超134張)"
+        ],
+        "buy_alerts": []
+      },
+      {
+        "rank": 2,
+        "name": "富邦-台北",
+        "is_foreign": false,
+        "wave_net_lots": 129,
+        "avg_cost": 67.03,
+        "profit_pct": -0.64,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -5.79,
+        "today_buy_lots": 1,
+        "today_sell_lots": 8,
+        "today_net_lots": -7,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -5.15,
+        "avg_20d_buy_lots": 24.8,
+        "avg_20d_sell_lots": 20.1,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 7,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          76,
+          76,
+          78,
+          70,
+          69,
+          126,
+          144,
+          135,
+          136,
+          129
+        ],
+        "last_10d_change": 53,
+        "period_tags": [
+          "20日#8",
+          "60日#6",
+          "120日#6"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 193.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 3,
+        "name": "台中銀-員林",
+        "is_foreign": false,
+        "wave_net_lots": 81,
+        "avg_cost": 68.13,
+        "profit_pct": -2.25,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -7.31,
+        "today_buy_lots": 1,
+        "today_sell_lots": 1,
+        "today_net_lots": 0,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 0.0,
+        "avg_20d_buy_lots": 6.4,
+        "avg_20d_sell_lots": 2.4,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          46,
+          45,
+          45,
+          45,
+          85,
+          86,
+          90,
+          86,
+          81,
+          81
+        ],
+        "last_10d_change": 35,
+        "period_tags": [
+          "20日#12",
+          "60日#13",
+          "120日#12"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 121.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "元大-內湖民權",
+        "is_foreign": false,
+        "wave_net_lots": 71,
+        "avg_cost": 64.95,
+        "profit_pct": 2.54,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -2.77,
+        "today_buy_lots": 12,
+        "today_sell_lots": 1,
+        "today_net_lots": 11,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 18.33,
+        "avg_20d_buy_lots": 10.1,
+        "avg_20d_sell_lots": 8.0,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 38,
+        "last_10d_holdings": [
+          4,
+          5,
+          63,
+          61,
+          63,
+          35,
+          33,
+          33,
+          60,
+          71
+        ],
+        "last_10d_change": 67,
+        "period_tags": [
+          "120日#15"
+        ],
+        "period_count": 1,
+        "is_geo_broker": false,
+        "score": 71.0,
+        "sell_alerts": [],
+        "buy_alerts": []
+      }
+    ],
+    "foreign_branches": [
+      {
+        "rank": 1,
+        "name": "美商高盛",
+        "is_foreign": true,
+        "wave_net_lots": 266,
+        "avg_cost": 63.15,
+        "profit_pct": 5.46,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 0.0,
+        "today_buy_lots": 512,
+        "today_sell_lots": 170,
+        "today_net_lots": 342,
+        "is_new_position": true,
+        "today_net_pct_of_holding": null,
+        "avg_20d_buy_lots": 184.4,
+        "avg_20d_sell_lots": 174.6,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 342,
+        "last_10d_holdings": [
+          -9,
+          -157,
+          -94,
+          73,
+          -58,
+          -158,
+          -74,
+          -61,
+          -76,
+          266
+        ],
+        "last_10d_change": 275,
+        "period_tags": [
+          "20日#2",
+          "60日#2",
+          "120日#3"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 399.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "🆕 新進場建倉 (淨買超 342 張)",
+          "單日買進 512 張 ≥ 20日均買2倍 (184×2，淨買342)"
+        ]
+      },
+      {
+        "rank": 2,
+        "name": "港商野村",
+        "is_foreign": true,
+        "wave_net_lots": 260,
+        "avg_cost": 63.51,
+        "profit_pct": 4.87,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": -0.57,
+        "today_buy_lots": 204,
+        "today_sell_lots": 67,
+        "today_net_lots": 137,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 111.38,
+        "avg_20d_buy_lots": 81.8,
+        "avg_20d_sell_lots": 71.8,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 1,
+        "consecutive_net_buy_lots": 137,
+        "last_10d_holdings": [
+          127,
+          -26,
+          -29,
+          537,
+          391,
+          253,
+          191,
+          184,
+          123,
+          260
+        ],
+        "last_10d_change": 133,
+        "period_tags": [
+          "20日#4",
+          "60日#3",
+          "120日#4"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 390.0,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "單日淨買超 137 張 ≥ 買前持股10% (111.4%)",
+          "單日買進 204 張 ≥ 20日均買2倍 (82×2，淨買137)"
+        ]
+      },
+      {
+        "rank": 3,
+        "name": "摩根大通",
+        "is_foreign": true,
+        "wave_net_lots": 115,
+        "avg_cost": 61.46,
+        "profit_pct": 8.36,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 2.75,
+        "today_buy_lots": 12,
+        "today_sell_lots": 19,
+        "today_net_lots": -7,
+        "is_new_position": false,
+        "today_net_pct_of_holding": -5.74,
+        "avg_20d_buy_lots": 61.5,
+        "avg_20d_sell_lots": 57.0,
+        "consecutive_net_sell_days": 1,
+        "consecutive_net_sell_lots": 7,
+        "consecutive_net_buy_days": 0,
+        "consecutive_net_buy_lots": 0,
+        "last_10d_holdings": [
+          -5,
+          24,
+          32,
+          35,
+          151,
+          -6,
+          33,
+          29,
+          122,
+          115
+        ],
+        "last_10d_change": 120,
+        "period_tags": [
+          "20日#7",
+          "60日#8",
+          "120日#8"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 172.5,
+        "sell_alerts": [],
+        "buy_alerts": []
+      },
+      {
+        "rank": 4,
+        "name": "新加坡商瑞銀",
+        "is_foreign": true,
+        "wave_net_lots": 99,
+        "avg_cost": 63.15,
+        "profit_pct": 5.46,
+        "profit_tier": "normal",
+        "is_high_profit_risk": false,
+        "today_price_vs_cost_pct": 0.0,
+        "today_buy_lots": 125,
+        "today_sell_lots": 53,
+        "today_net_lots": 72,
+        "is_new_position": false,
+        "today_net_pct_of_holding": 266.67,
+        "avg_20d_buy_lots": 117.9,
+        "avg_20d_sell_lots": 114.0,
+        "consecutive_net_sell_days": 0,
+        "consecutive_net_sell_lots": 0,
+        "consecutive_net_buy_days": 2,
+        "consecutive_net_buy_lots": 93,
+        "last_10d_holdings": [
+          74,
+          11,
+          47,
+          28,
+          87,
+          15,
+          6,
+          6,
+          27,
+          99
+        ],
+        "last_10d_change": 25,
+        "period_tags": [
+          "20日#6",
+          "60日#9",
+          "120日#9"
+        ],
+        "period_count": 3,
+        "is_geo_broker": false,
+        "score": 148.5,
+        "sell_alerts": [],
+        "buy_alerts": [
+          "單日淨買超 72 張 ≥ 買前持股10% (266.7%)",
+          "連續 2 天淨買(淨買超93張)"
+        ]
+      }
+    ],
+    "top_branches_total_lots": 418,
+    "concentration_wave_vol_pct": 0.35,
+    "concentration_capital_pct": 0.31,
+    "has_clear_domestic_main_force": false,
+    "chip_flow": {
+      "foreign_lots": 17222,
+      "foreign_chg": 572,
+      "trust_lots": 0,
+      "trust_chg": 0,
+      "dealer_lots": 5,
+      "dealer_chg": -5,
+      "margin_balance": 1149,
+      "margin_chg": 137,
+      "margin_pct_capital": 0.86,
+      "short_balance": 124,
+      "short_chg": 95
+    },
+    "is_chips_to_retail": false,
+    "excluded_day_traders": [
+      {
+        "name": "凱基-城中",
+        "wave_net_lots": 733,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.106,
+          "next_day_reverse_rate": 77.8,
+          "avg_holding_days": 0.2,
+          "reasons": [
+            "淨買比 0.11 (<0.20)",
+            "隔日反向率 78% (>60%)",
+            "平均持有 0.2 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "凱基-台北",
+        "wave_net_lots": 257,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.022,
+          "next_day_reverse_rate": 63.9,
+          "avg_holding_days": 0.5,
+          "reasons": [
+            "淨買比 0.02 (<0.20)",
+            "隔日反向率 64% (>60%)",
+            "平均持有 0.5 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "國泰-敦南",
+        "wave_net_lots": 120,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.018,
+          "next_day_reverse_rate": 68.2,
+          "avg_holding_days": 0.9,
+          "reasons": [
+            "淨買比 0.02 (<0.20)",
+            "隔日反向率 68% (>60%)",
+            "平均持有 0.9 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "富邦-豐原",
+        "wave_net_lots": 92,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.097,
+          "next_day_reverse_rate": 75.0,
+          "avg_holding_days": 0.9,
+          "reasons": [
+            "淨買比 0.10 (<0.20)",
+            "隔日反向率 75% (>60%)",
+            "平均持有 0.9 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "口袋證券",
+        "wave_net_lots": 83,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.078,
+          "next_day_reverse_rate": 76.2,
+          "avg_holding_days": 1.7,
+          "reasons": [
+            "淨買比 0.08 (<0.20)",
+            "隔日反向率 76% (>60%)",
+            "平均持有 1.7 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "統一-仁愛",
+        "wave_net_lots": 80,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 3,
+          "net_buy_ratio": 0.178,
+          "next_day_reverse_rate": 87.5,
+          "avg_holding_days": 0.6,
+          "reasons": [
+            "淨買比 0.18 (<0.20)",
+            "隔日反向率 88% (>60%)",
+            "平均持有 0.6 天 (<=2天)"
+          ]
+        }
+      },
+      {
+        "name": "永豐金證券",
+        "wave_net_lots": 77,
+        "eval_info": {
+          "is_day_trader": true,
+          "matched_rules": 2,
+          "net_buy_ratio": 0.054,
+          "next_day_reverse_rate": 72.0,
+          "avg_holding_days": 2.4,
+          "reasons": [
+            "淨買比 0.05 (<0.20)",
+            "隔日反向率 72% (>60%)"
+          ]
+        }
+      }
+    ],
+    "top3_net_sell_count": 1,
+    "top3_net_buy_count": 0,
+    "has_resonance_sell": false,
+    "has_resonance_buy": false,
+    "overall_status": "divergent",
+    "should_notify_telegram": true,
+    "alerts": [
+      "第1主力 [凱基-高美館] 單日淨賣超 129 張 ≥ 賣前持股10% (48.5%)",
+      "第1主力 [凱基-高美館] 單日賣出 141 張 ≥ 20日均賣2倍 (23×2，淨賣129)",
+      "第1主力 [凱基-高美館] 連續 2 天淨賣(淨賣超134張)"
+    ],
+    "buy_alerts": [],
+    "foreign_alerts": [],
+    "foreign_buy_alerts": [
+      "外資 [美商高盛] 🆕 新進場建倉 (淨買超 342 張)",
+      "外資 [美商高盛] 單日買進 512 張 ≥ 20日均買2倍 (184×2，淨買342)",
+      "外資 [港商野村] 單日淨買超 137 張 ≥ 買前持股10% (111.4%)",
+      "外資 [港商野村] 單日買進 204 張 ≥ 20日均買2倍 (82×2，淨買137)",
+      "外資 [新加坡商瑞銀] 單日淨買超 72 張 ≥ 買前持股10% (266.7%)",
+      "外資 [新加坡商瑞銀] 連續 2 天淨買(淨買超93張)"
+    ]
+  }
+]

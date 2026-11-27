@@ -1,0 +1,52 @@
+{
+  "defaults": {
+    "wave_search_days": 120,
+    "pre_wave_days": 30,
+    "top_n_branches": 5,
+    "geo_boost_default": 1.35,
+    "geo_boost_small_cap": 1.5,
+    "profit_risk_pct": 30.0
+  },
+  "telegram": {
+    "enabled": true,
+    "notify_when_normal": true,
+    "bot_token": "",
+    "chat_id": "",
+    "report_url": "https://christw228-afk.github.io/Stock/今日分點籌碼分析.html"
+  },
+  "watchlist_csv": "watchlist.csv",
+  "geo_brokers": {
+    "2330": ["新竹", "竹科", "竹北"],
+    "2317": ["土城", "板橋", "新北"],
+    "2454": ["新竹", "竹科", "竹北"],
+    "6488": ["新竹", "竹科", "竹北"],
+    "2466": ["新竹", "竹科", "桃園"],
+    "6163": ["汐止", "南港", "內湖"],
+    "6209": ["台中", "中港", "西屯", "大雅"],
+    "1569": ["高雄", "岡山", "楠梓"],
+    "2221": ["大甲", "台中", "豐原"],
+    "5013": ["台南", "佳里", "新營"]
+  },
+  "watchlist": [
+    {
+      "stock_id": "2330",
+      "name": "台積電",
+      "small_cap": false
+    },
+    {
+      "stock_id": "2317",
+      "name": "鴻海",
+      "small_cap": false
+    },
+    {
+      "stock_id": "2454",
+      "name": "聯發科",
+      "small_cap": false
+    },
+    {
+      "stock_id": "6488",
+      "name": "環球晶",
+      "small_cap": false
+    }
+  ]
+}

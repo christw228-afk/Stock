@@ -1,0 +1,8 @@
+# Local config contains private Telegram bot_token / chat_id and Windows local paths
+config.json
+
+__pycache__/
+*.py[cod]
+.env
+.DS_Store
+Thumbs.db
