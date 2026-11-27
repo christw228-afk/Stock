@@ -66,6 +66,9 @@ def _derive_action_stance(r: StockChipMonitorResult) -> tuple[str, str, str]:
             parts.append(f"本土 {dom_net:+,}")
         if margin_chg is not None and margin_chg < 0:
             parts.append(f"融資 {margin_chg:+,}")
+        if w.gain_from_trough_pct >= 100.0:
+            parts.append(f"波段已漲 {w.gain_from_trough_pct:+.0f}% 留意獲利了結")
+            return "續抱", "stance-bull", "、".join(parts)
         return "加碼", "stance-bull", "、".join(parts) or "買盤主導"
 
     buy_parts: list[str] = []
@@ -174,7 +177,9 @@ def _render_branch_rows(branches: list[TopBranchStatus], today_avg_price: float)
         elif early_ratio > 0:
             key_metrics_parts.append(f"領先建倉 {early_ratio:.0f}%")
         if win_rate is not None and win_samples > 0:
-            key_metrics_parts.append(f"買後5日勝率 {win_rate:.0f}% ({win_samples}次)")
+            base_wr = getattr(br, "buy_5d_base_win_rate", None)
+            base_s = f", 基準{base_wr:.0f}%" if base_wr is not None else ""
+            key_metrics_parts.append(f"買後5日勝率 {win_rate:.0f}% ({win_samples}次{base_s})")
         key_metrics_html = (
             f'<div class="sub-pct">{" · ".join(key_metrics_parts)}</div>'
             if key_metrics_parts
@@ -382,10 +387,23 @@ def generate_html_report(
         </div>
         """)
 
+    all_trust_items = [
+        f'<li><strong>{_esc(r.stock_id)} {_esc(r.stock_name)}</strong>：{_esc(tal)}</li>'
+        for r in results
+        for tal in getattr(r, "trust_alerts", [])
+    ]
+    if all_trust_items:
+        alert_blocks.append(f"""
+        <div class="global-alert alert-danger">
+          <div class="global-alert-title">🏛️ 投信大額賣出警示（共 {len(all_trust_items)} 項）</div>
+          <ul>{''.join(all_trust_items)}</ul>
+        </div>
+        """)
+
     all_buy_items = [
         f'<li><strong>{_esc(r.stock_id)} {_esc(r.stock_name)}</strong>：{_esc(bal)}</li>'
         for r in results
-        for bal in (r.buy_alerts + r.foreign_buy_alerts)
+        for bal in (r.buy_alerts + r.foreign_buy_alerts + getattr(r, "trust_buy_alerts", []))
     ]
     if all_buy_items:
         alert_blocks.append(f"""
@@ -454,6 +472,16 @@ def generate_html_report(
             status_badges.append(
                 f'<span class="status-pill status-buy">🔥 共振加碼({r.top3_net_buy_count}家)</span>'
             )
+        if r.chip_flow and r.chip_flow.margin_pct_capital >= 10.0:
+            status_badges.append(
+                f'<span class="status-pill status-warn">⚠️ 高融資水位 ({r.chip_flow.margin_pct_capital:.1f}%)</span>'
+            )
+        if r.chip_flow and r.chip_flow.margin_balance > 0:
+            sr = r.chip_flow.short_balance / r.chip_flow.margin_balance * 100.0
+            if sr >= 30.0:
+                status_badges.append(
+                    f'<span class="status-pill status-div">⚡ 高券資比 ({sr:.0f}%)</span>'
+                )
         stance_lbl, stance_cls, stance_reason = _derive_action_stance(r)
         status_badges.append(
             f'<span class="stance-pill {stance_cls}" title="{_esc(stance_reason)}">建議：{_esc(stance_lbl)}（{_esc(stance_reason)}）</span>'
@@ -496,8 +524,20 @@ def generate_html_report(
         if r.weekly_big_holders:
             bh = r.weekly_big_holders
             bh_cls = _signed_cls(bh.big_holder_diff)
+            age_txt = ""
+            try:
+                ref_dt = datetime.strptime(r.data_date[:10], "%Y-%m-%d")
+                bh_str = bh.latest_date.replace("/", "-")
+                if len(bh_str) <= 5:
+                    bh_str = f"{ref_dt.year}-{bh_str}"
+                bh_dt = datetime.strptime(bh_str[:10], "%Y-%m-%d")
+                age_days = max(0, (ref_dt - bh_dt).days)
+                if age_days > 0:
+                    age_txt = f"·{age_days}天前"
+            except Exception:
+                age_txt = ""
             flow_parts.append(
-                f'<span>🏛️ 集保大戶({_esc(bh.latest_date)})：<strong>{bh.big_holder_pct:.2f}%</strong> (<span class="{bh_cls}">週變 {bh.big_holder_diff:+.2f}%</span>) ｜ 集中度 {bh.concentration_pct:.2f}% ({bh.concentration_diff:+.2f}%)</span>'
+                f'<span>🏛️ 集保大戶({_esc(bh.latest_date)}{age_txt})：<strong>{bh.big_holder_pct:.2f}%</strong> (<span class="{bh_cls}">週變 {bh.big_holder_diff:+.2f}%</span>) ｜ 集中度 {bh.concentration_pct:.2f}% ({bh.concentration_diff:+.2f}%)</span>'
             )
 
         flow_html = (
@@ -509,9 +549,21 @@ def generate_html_report(
         foreign_html = ""
         if r.foreign_branches:
             f_rows = _render_branch_rows(r.foreign_branches, w.today_avg_price)
+            tracked_for_net = sum(b.today_net_lots for b in r.foreign_branches)
+            untracked_bar = ""
+            if r.chip_flow is not None:
+                untracked_net = r.chip_flow.foreign_chg - tracked_for_net
+                untracked_bar = (
+                    f'<div class="card-meta" style="padding:8px 18px;border-bottom:1px solid #e2e8f0;background:#fff;">'
+                    f'<span>官方外資今日：<strong class="{_signed_cls(r.chip_flow.foreign_chg)}">{r.chip_flow.foreign_chg:+,} 張</strong></span>'
+                    f'<span>已追蹤 {len(r.foreign_branches)} 家合計：<strong class="{_signed_cls(tracked_for_net)}">{tracked_for_net:+,} 張</strong></span>'
+                    f'<span>未追蹤其餘外資分點：<strong class="{_signed_cls(untracked_net)}">{untracked_net:+,} 張</strong></span>'
+                    f'</div>'
+                )
             foreign_html = f"""
             <details class="foreign-box" open>
-              <summary>🌐 外資分點觀察區（共 {len(r.foreign_branches)} 家，不列入隔日沖排除，警示已計入總覽）</summary>
+              <summary>🌐 外資分點觀察區（共 {len(r.foreign_branches)} 家，高周轉異常倒貨已納警示）</summary>
+              {untracked_bar}
               <div class="table-wrap">
                 <table class="branch-table">
                   {table_head}
@@ -523,7 +575,7 @@ def generate_html_report(
 
         if r.excluded_day_traders:
             ex_items = "".join(
-                f"<li><strong>{_esc(ex.name)}</strong>（區間淨買 {ex.wave_net_lots:,} 張）：{_esc('、'.join(ex.eval_info.reasons))}</li>"
+                f"<li><strong>{_esc(ex.name)}</strong>（今日 <span class=\"{_signed_cls(getattr(ex, 'today_net_lots', 0))}\">{getattr(ex, 'today_net_lots', 0):+,} 張</span> ｜ 區間淨買 {ex.wave_net_lots:,} 張）：{_esc('、'.join(ex.eval_info.reasons))}</li>"
                 for ex in r.excluded_day_traders
             )
             excluded_html = f"""

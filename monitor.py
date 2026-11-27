@@ -54,6 +54,7 @@ class TopBranchStatus:
     score: float
     early_accum_ratio: Optional[float] = None
     buy_5d_win_rate: Optional[float] = None
+    buy_5d_base_win_rate: Optional[float] = None
     buy_5d_sample_count: int = 0
     is_key_broker: bool = False
     key_broker_reasons: list[str] = field(default_factory=list)
@@ -77,6 +78,7 @@ class ExcludedDayTrader:
     name: str
     wave_net_lots: int
     eval_info: DayTradeEval
+    today_net_lots: int = 0
 
 
 @dataclass
@@ -106,6 +108,8 @@ class StockChipMonitorResult:
     buy_alerts: list[str] = field(default_factory=list)
     foreign_alerts: list[str] = field(default_factory=list)
     foreign_buy_alerts: list[str] = field(default_factory=list)
+    trust_alerts: list[str] = field(default_factory=list)
+    trust_buy_alerts: list[str] = field(default_factory=list)
     top_sellers: list[TopSellerStatus] = field(default_factory=list)
 
 
@@ -248,16 +252,19 @@ def _compute_buy_5d_win_rate(
     full_records: list[BranchDailyRecord],
     trading_dates: list[str],
     daily_avg_prices: dict[str, float],
-) -> tuple[Optional[float], int, int]:
-    """Compute 5-trading-day forward win rate (%) after notable net-buy days."""
+) -> tuple[Optional[float], Optional[float], int, int]:
+    """Compute 5-trading-day forward win rate (%) after notable net-buy days,
+    plus the stock's baseline 5-day win rate over the same window.
+    Requires >= 5 samples to avoid small-sample distortion.
+    """
     pos_lots = [r.net_lots for r in full_records if r.net_lots > 0]
-    if len(pos_lots) < 3:
-        return None, 0, 0
+    if len(pos_lots) < 5:
+        return None, None, 0, 0
 
     avg_pos = sum(pos_lots) / len(pos_lots)
     min_lot = max(5, int(avg_pos * 0.5))
     candidates = [r for r in full_records if r.net_lots >= min_lot]
-    if len(candidates) < 3:
+    if len(candidates) < 5:
         candidates = [r for r in full_records if r.net_lots > 0]
 
     date_to_idx = {d: i for i, d in enumerate(trading_dates)}
@@ -274,9 +281,29 @@ def _compute_buy_5d_win_rate(
             if p5 > p0:
                 wins += 1
 
-    if samples < 3:
-        return None, wins, samples
-    return round(wins / samples * 100.0, 1), wins, samples
+    if samples < 5:
+        return None, None, wins, samples
+
+    # Baseline 5-day win rate over the branch's active date span
+    first_date = full_records[0].date if full_records else ""
+    last_date = full_records[-1].date if full_records else ""
+    base_wins = 0
+    base_samples = 0
+    for idx in range(len(trading_dates) - 5):
+        d0 = trading_dates[idx]
+        if first_date and d0 < first_date:
+            continue
+        if last_date and d0 > last_date:
+            break
+        p0 = daily_avg_prices.get(d0, 0.0)
+        p5 = daily_avg_prices.get(trading_dates[idx + 5], 0.0)
+        if p0 > 0 and p5 > 0:
+            base_samples += 1
+            if p5 > p0:
+                base_wins += 1
+
+    base_wr = round(base_wins / base_samples * 100.0, 1) if base_samples >= 5 else None
+    return round(wins / samples * 100.0, 1), base_wr, wins, samples
 
 
 def _evaluate_key_broker(
@@ -287,6 +314,7 @@ def _evaluate_key_broker(
     is_geo: bool,
     early_accum_ratio: Optional[float],
     buy_5d_win_rate: Optional[float],
+    buy_5d_base_win_rate: Optional[float],
     buy_5d_wins: int,
     buy_5d_samples: int,
 ) -> tuple[bool, list[str]]:
@@ -307,11 +335,15 @@ def _evaluate_key_broker(
         elif early_accum_ratio >= 35.0:
             reasons.append(f"領先建倉 {early_accum_ratio:.0f}%")
 
-    if buy_5d_win_rate is not None and buy_5d_win_rate >= 65.0 and buy_5d_samples >= 4:
-        reasons.append(f"買後5日勝率 {buy_5d_win_rate:.0f}% ({buy_5d_wins}/{buy_5d_samples})")
+    beats_baseline = (
+        buy_5d_base_win_rate is None
+        or buy_5d_win_rate is None
+        or buy_5d_win_rate >= buy_5d_base_win_rate + 10.0
+    )
+    if buy_5d_win_rate is not None and buy_5d_samples >= 5 and buy_5d_win_rate >= 65.0 and beats_baseline:
+        base_txt = f", 基準{buy_5d_base_win_rate:.0f}%" if buy_5d_base_win_rate is not None else ""
+        reasons.append(f"買後5日勝率 {buy_5d_win_rate:.0f}% ({buy_5d_wins}/{buy_5d_samples}{base_txt})")
         strong = True
-    elif buy_5d_win_rate is not None and buy_5d_win_rate >= 60.0 and buy_5d_samples >= 3:
-        reasons.append(f"買後5日勝率 {buy_5d_win_rate:.0f}% ({buy_5d_wins}/{buy_5d_samples})")
 
     if period_count >= 2 and profit_pct >= 25.0:
         reasons.append(f"多週期長抱 (獲利 {profit_pct:+.0f}%)")
@@ -511,7 +543,7 @@ def _build_branch_status(
     early_accum_ratio = _compute_early_accum_ratio(
         wave_records, wave.trading_dates, wave.observation_start, wave.trough_date, data_date, wave_holding
     )
-    buy_5d_win_rate, buy_5d_wins, buy_5d_samples = _compute_buy_5d_win_rate(
+    buy_5d_win_rate, buy_5d_base_win_rate, buy_5d_wins, buy_5d_samples = _compute_buy_5d_win_rate(
         full_records, wave.trading_dates, wave.daily_avg_prices
     )
     is_key_broker, key_broker_reasons = _evaluate_key_broker(
@@ -522,6 +554,7 @@ def _build_branch_status(
         is_geo=is_geo,
         early_accum_ratio=early_accum_ratio,
         buy_5d_win_rate=buy_5d_win_rate,
+        buy_5d_base_win_rate=buy_5d_base_win_rate,
         buy_5d_wins=buy_5d_wins,
         buy_5d_samples=buy_5d_samples,
     )
@@ -559,6 +592,7 @@ def _build_branch_status(
         score=round(score, 1),
         early_accum_ratio=early_accum_ratio,
         buy_5d_win_rate=buy_5d_win_rate,
+        buy_5d_base_win_rate=buy_5d_base_win_rate,
         buy_5d_sample_count=buy_5d_samples,
         is_key_broker=is_key_broker,
         key_broker_reasons=key_broker_reasons,
@@ -608,11 +642,14 @@ def analyze_stock(
         if chip_flow
         else 0
     )
+    prev_margin_balance = max(1, chip_flow.margin_balance - chip_flow.margin_chg) if chip_flow else 1
+    retail_foreign_floor = max(50, int(wave.today_volume_lots * 0.03))
+    retail_margin_floor = max(50, int(prev_margin_balance * 0.01))
     is_chips_to_retail = bool(
         chip_flow
         and chip_flow.margin_available
-        and chip_flow.foreign_chg < 0
-        and chip_flow.margin_chg > 0
+        and chip_flow.foreign_chg <= -retail_foreign_floor
+        and chip_flow.margin_chg >= retail_margin_floor
     )
 
     history_start = min(wave.observation_start, wave.date_60d)
@@ -640,11 +677,13 @@ def analyze_stock(
         dt_eval = evaluate_day_trader(full_records[-60:] if full_records else [])
 
         if not foreign and dt_eval.is_day_trader:
+            dt_today_rec = next((r for r in full_records if r.date == data_date), None)
             excluded_day_traders.append(
                 ExcludedDayTrader(
                     name=br.name,
                     wave_net_lots=br.net_lots,
                     eval_info=dt_eval,
+                    today_net_lots=dt_today_rec.net_lots if dt_today_rec else 0,
                 )
             )
             continue
@@ -738,6 +777,20 @@ def analyze_stock(
             f"⚠️ 籌碼轉向散戶：外資當日賣超 {abs(chip_flow.foreign_chg):,} 張、融資增加 {chip_flow.margin_chg:+,} 張"
         )
 
+    trust_alerts: list[str] = []
+    trust_buy_alerts: list[str] = []
+    if chip_flow and wave.today_volume_lots > 0:
+        trust_floor = max(50, int(wave.today_volume_lots * 0.05))
+        t_vol_pct = abs(chip_flow.trust_chg) / wave.today_volume_lots * 100.0
+        if chip_flow.trust_chg <= -trust_floor:
+            trust_alerts.append(
+                f"投信單日大賣 {abs(chip_flow.trust_chg):,} 張 (佔當日量 {t_vol_pct:.1f}%)"
+            )
+        elif chip_flow.trust_chg >= trust_floor:
+            trust_buy_alerts.append(
+                f"投信單日大買 +{chip_flow.trust_chg:,} 張 (佔當日量 {t_vol_pct:.1f}%)"
+            )
+
     official_sell_floor = max(50, int(wave.today_volume_lots * 0.05))
     official_heavy_sell = official_inst_net <= -official_sell_floor
     if official_heavy_sell and chip_flow:
@@ -756,7 +809,7 @@ def analyze_stock(
         else True
     )
 
-    has_sell_sig = len(alerts) > 0 or len(foreign_alerts) > 0
+    has_sell_sig = len(alerts) > 0 or len(foreign_alerts) > 0 or len(trust_alerts) > 0
     # Only count domestic buy signals toward overall "buy" badge if there is a clear domestic main force
     # or if foreign long-hold branches are also buying
     foreign_strong_buy = (
@@ -773,6 +826,7 @@ def analyze_stock(
     effective_buy_sig = (
         (len(buy_alerts) > 0 and (has_clear_domestic or has_resonance_buy))
         or len(foreign_buy_alerts) > 0
+        or len(trust_buy_alerts) > 0
         or foreign_strong_buy
     )
 
@@ -840,5 +894,7 @@ def analyze_stock(
         buy_alerts=buy_alerts,
         foreign_alerts=foreign_alerts,
         foreign_buy_alerts=foreign_buy_alerts,
+        trust_alerts=trust_alerts,
+        trust_buy_alerts=trust_buy_alerts,
         top_sellers=top_sellers,
     )
