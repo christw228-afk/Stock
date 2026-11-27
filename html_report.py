@@ -47,6 +47,9 @@ def _derive_action_stance(r: StockChipMonitorResult) -> tuple[str, str, str]:
             parts.append(f"融資 {margin_chg:+,} 轉散戶")
         return "看空", "stance-bear", "、".join(parts) or "賣壓主導"
 
+    bh = getattr(r, "weekly_big_holders", None)
+    bh_drop = bh is not None and bh.big_holder_diff < -2.0
+
     if (
         (r.overall_status == "buy" or r.has_resonance_buy or f_clear_buy)
         and inst_net >= 0
@@ -54,6 +57,7 @@ def _derive_action_stance(r: StockChipMonitorResult) -> tuple[str, str, str]:
         and not r.is_chips_to_retail
         and not r.has_resonance_sell
         and not r.alerts
+        and not bh_drop
     ):
         parts = []
         if foreign_net > 0:
@@ -78,6 +82,9 @@ def _derive_action_stance(r: StockChipMonitorResult) -> tuple[str, str, str]:
         sell_parts.append(f"投信 {trust_net:+,}")
     elif trust_net > 50:
         buy_parts.append(f"投信 {trust_net:+,}")
+
+    if bh_drop and bh is not None:
+        sell_parts.append(f"集保大戶 {bh.big_holder_diff:+.2f}%")
 
     if buy_parts and sell_parts:
         reason = f"{'／'.join(buy_parts)} 接盤，{'／'.join(sell_parts)} 賣壓"
@@ -159,10 +166,12 @@ def _render_branch_rows(branches: list[TopBranchStatus], today_avg_price: float)
             else ""
         )
         key_metrics_parts: list[str] = []
-        early_ratio = getattr(br, "early_accum_ratio", 0.0) or 0.0
+        early_ratio = getattr(br, "early_accum_ratio", None)
         win_rate = getattr(br, "buy_5d_win_rate", None)
         win_samples = getattr(br, "buy_5d_sample_count", 0) or 0
-        if early_ratio > 0:
+        if early_ratio is None:
+            key_metrics_parts.append("領先建倉：波段過短不計")
+        elif early_ratio > 0:
             key_metrics_parts.append(f"領先建倉 {early_ratio:.0f}%")
         if win_rate is not None and win_samples > 0:
             key_metrics_parts.append(f"買後5日勝率 {win_rate:.0f}% ({win_samples}次)")
@@ -208,7 +217,7 @@ def _render_branch_rows(branches: list[TopBranchStatus], today_avg_price: float)
             signal_parts.append(f'<div class="cell-alert">🚨 {_esc(a)}</div>')
         for ba in br.buy_alerts:
             signal_parts.append(f'<div class="cell-buy">📈 {_esc(ba)}</div>')
-        if br.is_high_turnover:
+        if br.is_high_turnover and not signal_parts:
             alert_cell = '<span class="cell-ht">⚡ 高周轉/避險（不計警示）</span>'
         elif signal_parts:
             alert_cell = "".join(signal_parts)
@@ -319,9 +328,10 @@ def generate_html_report(
         retail_flag = ' <span class="status-pill status-warn">⚠️ 轉散戶</span>' if r.is_chips_to_retail else ""
         stance_lbl, stance_cls, stance_reason = _derive_action_stance(r)
 
+        margin_sort_val = cf.margin_chg if (cf is not None and cf.margin_available) else -999999999
         overview_rows.append(
             f"""
-            <tr class="overview-row" data-goto="stock-{_esc(r.stock_id)}">
+            <tr class="overview-row" data-goto="stock-{_esc(r.stock_id)}" data-stock="{_esc(r.stock_id)}" data-chg="{w.today_change_pct:.4f}" data-vol="{vol}" data-foreign="{foreign_net}" data-dom="{dom_net}" data-margin="{margin_sort_val}">
               <td>
                 <button type="button" class="overview-link" data-goto="stock-{_esc(r.stock_id)}">
                   <strong>{_esc(r.stock_id)} {_esc(r.stock_name)}</strong>
@@ -503,7 +513,7 @@ def generate_html_report(
             <details class="foreign-box" open>
               <summary>🌐 外資分點觀察區（共 {len(r.foreign_branches)} 家，不列入隔日沖排除，警示已計入總覽）</summary>
               <div class="table-wrap">
-                <table>
+                <table class="branch-table">
                   {table_head}
                   <tbody>{f_rows}</tbody>
                 </table>
@@ -525,6 +535,49 @@ def generate_html_report(
         else:
             excluded_html = '<div class="excluded-none">此波段本土買超分點中無符合隔日沖行為者。</div>'
 
+        top_sellers = getattr(r, "top_sellers", []) or []
+        sellers_html = ""
+        if top_sellers:
+            s_rows = "".join(
+                f"""
+                <tr>
+                  <td class="col-center"><strong>{s.rank}</strong></td>
+                  <td><div class="broker-name">{_esc(s.name)}{' <span class="badge badge-geo">外資</span>' if s.is_foreign else ''}</div></td>
+                  <td class="col-right num-pos">{s.buy_lots:,}</td>
+                  <td class="col-right num-neg">{s.sell_lots:,}</td>
+                  <td class="col-right"><span class="num-neg">{s.net_lots:,}</span></td>
+                  <td class="col-right">{s.volume_pct:.1f}%</td>
+                </tr>
+                """
+                for s in top_sellers
+            )
+            trust_dealer_sell = (
+                r.chip_flow is not None
+                and w.today_volume_lots > 0
+                and (r.chip_flow.trust_chg + r.chip_flow.dealer_chg) <= -max(50, int(w.today_volume_lots * 0.05))
+            )
+            open_attr = " open" if trust_dealer_sell else ""
+            sellers_html = f"""
+            <details class="sellers-box"{open_attr}>
+              <summary>📉 今日前 {len(top_sellers)} 大賣超分點（補齊賣方明細，避免只見買盤）</summary>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th class="col-center">名次</th>
+                      <th>賣超分點</th>
+                      <th class="col-right">今日買(張)</th>
+                      <th class="col-right">今日賣(張)</th>
+                      <th class="col-right">今日淨賣超(張)</th>
+                      <th class="col-right">佔當日量</th>
+                    </tr>
+                  </thead>
+                  <tbody>{s_rows}</tbody>
+                </table>
+              </div>
+            </details>
+            """
+
         cards_html.append(
             f"""
             <div class="tab-panel" id="tab-stock-{_esc(r.stock_id)}">
@@ -545,13 +598,14 @@ def generate_html_report(
                   {flow_html}
                 </div>
                 <div class="table-wrap">
-                  <table>
+                  <table class="branch-table">
                     {table_head}
                     <tbody>
                       {_render_branch_rows(r.top_branches, w.today_avg_price)}
                     </tbody>
                   </table>
                 </div>
+                {sellers_html}
                 {foreign_html}
                 {excluded_html}
               </section>
@@ -747,6 +801,28 @@ def generate_html_report(
     .cell-ok {{ color: var(--green); font-weight: 600; }}
     .foreign-box {{ border-top: 2px solid #e2e8f0; background: #f8fafc; }}
     .foreign-box summary {{ padding: 9px 18px; cursor: pointer; font-weight: 700; font-size: 13px; color: #1e40af; }}
+    .sellers-box {{ border-top: 2px solid #fecaca; background: #fffafb; }}
+    .sellers-box summary {{ padding: 9px 18px; cursor: pointer; font-weight: 700; font-size: 13px; color: #b91c1c; }}
+    .branch-table th:nth-child(1),
+    .branch-table td:nth-child(1) {{
+      position: sticky; left: 0; z-index: 2; width: 48px; min-width: 48px;
+    }}
+    .branch-table th:nth-child(2),
+    .branch-table td:nth-child(2) {{
+      position: sticky; left: 48px; z-index: 2;
+      box-shadow: 2px 0 5px rgba(15, 23, 42, 0.06);
+    }}
+    .branch-table th:nth-child(1),
+    .branch-table th:nth-child(2) {{ background: #f8fafc; z-index: 3; }}
+    .branch-table td:nth-child(1),
+    .branch-table td:nth-child(2) {{ background: #ffffff; }}
+    .branch-table tr.row-alert td:nth-child(1),
+    .branch-table tr.row-alert td:nth-child(2) {{ background: #fff7f7; }}
+    th.sortable {{ cursor: pointer; user-select: none; }}
+    th.sortable:hover {{ background: #e2e8f0; }}
+    th.sortable::after {{ content: " ⇅"; font-size: 10px; color: #94a3b8; }}
+    th.sortable.sort-asc::after {{ content: " ▲"; color: #1d4ed8; }}
+    th.sortable.sort-desc::after {{ content: " ▼"; color: #1d4ed8; }}
     .excluded-box {{ padding: 9px 18px; background: #fafafa; font-size: 12px; color: var(--muted); }}
     .excluded-box summary {{ cursor: pointer; font-weight: 600; }}
     .excluded-box ul {{ margin: 6px 0 2px 18px; padding: 0; }}
@@ -793,17 +869,17 @@ def generate_html_report(
           <span class="overview-hint">點擊任一列或上方分頁標籤切換至該股明細</span>
         </div>
         <div class="table-wrap">
-          <table>
+          <table id="overview-table">
             <thead>
               <tr>
-                <th>股票</th>
-                <th class="col-right">收盤 / 漲跌</th>
-                <th class="col-right">成交量(張)</th>
+                <th class="sortable" data-sort="stock">股票</th>
+                <th class="col-right sortable" data-sort="chg">收盤 / 漲跌</th>
+                <th class="col-right sortable" data-sort="vol">成交量(張)</th>
                 <th>狀態</th>
                 <th>操作建議</th>
-                <th class="col-right">外資今日(張)</th>
-                <th class="col-right">本土前{top_n}今日(張)</th>
-                <th class="col-center">融資變動</th>
+                <th class="col-right sortable" data-sort="foreign">外資今日(張)</th>
+                <th class="col-right sortable" data-sort="dom">本土前{top_n}今日(張)</th>
+                <th class="col-center sortable" data-sort="margin">融資變動</th>
                 <th>關鍵分點</th>
               </tr>
             </thead>
@@ -826,7 +902,7 @@ def generate_html_report(
       var buttons = document.querySelectorAll('.tab-btn');
       var panels = document.querySelectorAll('.tab-panel');
 
-      function activateTab(tabId) {{
+      function activateTab(tabId, skipHash) {{
         var targetPanel = document.getElementById('tab-' + tabId);
         if (!targetPanel) return;
         buttons.forEach(function (btn) {{
@@ -835,6 +911,9 @@ def generate_html_report(
         panels.forEach(function (panel) {{
           panel.classList.toggle('active', panel.id === 'tab-' + tabId);
         }});
+        if (!skipHash && window.history && window.history.replaceState) {{
+          window.history.replaceState(null, '', '#' + tabId);
+        }}
         window.scrollTo({{ top: 0, behavior: 'smooth' }});
       }}
 
@@ -850,8 +929,34 @@ def generate_html_report(
         }});
       }});
 
-      if (window.location.hash && window.location.hash.startsWith('#stock-')) {{
-        activateTab(window.location.hash.slice(1));
+      var overviewTable = document.getElementById('overview-table');
+      if (overviewTable) {{
+        var headers = overviewTable.querySelectorAll('th.sortable');
+        var sortState = {{ key: null, dir: -1 }};
+        headers.forEach(function (th) {{
+          th.addEventListener('click', function () {{
+            var key = th.getAttribute('data-sort');
+            sortState.dir = (sortState.key === key) ? -sortState.dir : -1;
+            sortState.key = key;
+            headers.forEach(function (h) {{ h.classList.remove('sort-asc', 'sort-desc'); }});
+            th.classList.add(sortState.dir === 1 ? 'sort-asc' : 'sort-desc');
+            var tbody = overviewTable.querySelector('tbody');
+            var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+            rows.sort(function (a, b) {{
+              var av = a.getAttribute('data-' + key) || '';
+              var bv = b.getAttribute('data-' + key) || '';
+              if (key === 'stock') {{
+                return av.localeCompare(bv) * sortState.dir;
+              }}
+              return (parseFloat(av) - parseFloat(bv)) * sortState.dir;
+            }});
+            rows.forEach(function (row) {{ tbody.appendChild(row); }});
+          }});
+        }});
+      }}
+
+      if (window.location.hash && window.location.hash.length > 1) {{
+        activateTab(window.location.hash.slice(1), true);
       }}
     }})();
   </script>

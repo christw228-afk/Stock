@@ -52,13 +52,24 @@ class TopBranchStatus:
     period_count: int
     is_geo_broker: bool
     score: float
-    early_accum_ratio: float = 0.0
+    early_accum_ratio: Optional[float] = None
     buy_5d_win_rate: Optional[float] = None
     buy_5d_sample_count: int = 0
     is_key_broker: bool = False
     key_broker_reasons: list[str] = field(default_factory=list)
     sell_alerts: list[str] = field(default_factory=list)
     buy_alerts: list[str] = field(default_factory=list)
+
+
+@dataclass
+class TopSellerStatus:
+    rank: int
+    name: str
+    is_foreign: bool
+    buy_lots: int
+    sell_lots: int
+    net_lots: int
+    volume_pct: float
 
 
 @dataclass
@@ -95,6 +106,7 @@ class StockChipMonitorResult:
     buy_alerts: list[str] = field(default_factory=list)
     foreign_alerts: list[str] = field(default_factory=list)
     foreign_buy_alerts: list[str] = field(default_factory=list)
+    top_sellers: list[TopSellerStatus] = field(default_factory=list)
 
 
 def _rank_map(rows: list[BrokerSummaryRow]) -> dict[str, int]:
@@ -197,12 +209,18 @@ def _compute_last_10d_holdings(
 def _compute_early_accum_ratio(
     wave_records: list[BranchDailyRecord],
     trading_dates: list[str],
+    obs_start: str,
     trough_date: str,
+    data_date: str,
     wave_holding: int,
-) -> float:
-    """Ratio (%) of peak/current wave holding accumulated before or near trough_date (+5 trading days)."""
-    if not wave_records:
-        return 0.0
+    min_obs_days: int = 10,
+) -> Optional[float]:
+    """Ratio (%) of peak/current wave holding accumulated before or near trough_date (+5 trading days).
+    Returns None if the observation window has fewer than `min_obs_days` trading days.
+    """
+    obs_days = sum(1 for d in trading_dates if obs_start <= d <= data_date)
+    if not wave_records or obs_days < min_obs_days:
+        return None
     trough_idx = next((i for i, d in enumerate(trading_dates) if d >= trough_date), None)
     if trough_idx is not None:
         cutoff_idx = min(len(trading_dates) - 1, trough_idx + 5)
@@ -214,7 +232,7 @@ def _compute_early_accum_ratio(
     peak_holding = 0
     early_net = 0
     for r in wave_records:
-        cum += r.net_lots
+        cum = max(0, cum + r.net_lots)
         if cum > peak_holding:
             peak_holding = cum
         if r.date <= cutoff_date:
@@ -267,7 +285,7 @@ def _evaluate_key_broker(
     profit_pct: float,
     period_count: int,
     is_geo: bool,
-    early_accum_ratio: float,
+    early_accum_ratio: Optional[float],
     buy_5d_win_rate: Optional[float],
     buy_5d_wins: int,
     buy_5d_samples: int,
@@ -275,14 +293,19 @@ def _evaluate_key_broker(
     if is_high_turnover or wave_holding <= 0:
         return False, []
 
+    # One-vote veto: if sufficient history (>= 5 samples) shows poor win rate (< 50%), never award key broker
+    if buy_5d_win_rate is not None and buy_5d_samples >= 5 and buy_5d_win_rate < 50.0:
+        return False, []
+
     reasons: list[str] = []
     strong = False
 
-    if early_accum_ratio >= 50.0 and (wave_holding >= 50 or profit_pct >= 20.0):
-        reasons.append(f"領先建倉 {early_accum_ratio:.0f}%")
-        strong = True
-    elif early_accum_ratio >= 35.0:
-        reasons.append(f"領先建倉 {early_accum_ratio:.0f}%")
+    if early_accum_ratio is not None:
+        if early_accum_ratio >= 50.0 and (wave_holding >= 50 or profit_pct >= 20.0):
+            reasons.append(f"領先建倉 {early_accum_ratio:.0f}%")
+            strong = True
+        elif early_accum_ratio >= 35.0:
+            reasons.append(f"領先建倉 {early_accum_ratio:.0f}%")
 
     if buy_5d_win_rate is not None and buy_5d_win_rate >= 65.0 and buy_5d_samples >= 4:
         reasons.append(f"買後5日勝率 {buy_5d_win_rate:.0f}% ({buy_5d_wins}/{buy_5d_samples})")
@@ -345,8 +368,14 @@ def _build_branch_status(
     period_mult = 1.0 + 0.25 * max(0, p_count - 1)
     geo_mult = geo_boost if is_geo else 1.0
 
-    wave_holding = sum(r.net_lots for r in wave_records) if wave_records else br.net_lots
-    score = float(max(wave_holding, 0)) * period_mult * geo_mult
+    if wave_records:
+        hold = 0
+        for rec in wave_records:
+            hold = max(0, hold + rec.net_lots)
+        wave_holding = hold
+    else:
+        wave_holding = max(0, br.net_lots)
+    score = float(wave_holding) * period_mult * geo_mult
 
     avg_cost = _compute_fifo_remaining_cost(
         wave_records, wave.daily_avg_prices, wave.latest_close
@@ -364,7 +393,7 @@ def _build_branch_status(
     today_sell = today_rec.sell_lots if today_rec else 0
     today_net = today_rec.net_lots if today_rec else 0
 
-    pre_trade_holding = wave_holding - today_net
+    pre_trade_holding = max(0, wave_holding - today_net)
     is_new_position = pre_trade_holding < 20
     today_net_pct: Optional[float] = (
         None if is_new_position else round(today_net / pre_trade_holding * 100.0, 2)
@@ -400,18 +429,31 @@ def _build_branch_status(
     branch_alerts: list[str] = []
     branch_buy_alerts: list[str] = []
 
-    # High-turnover / hedging foreign branches are classified & shown, but do NOT fire alerts
-    if not (is_foreign and is_high_turnover):
-        net_sell_lots = abs(today_net) if today_net < 0 else 0
+    # High-turnover / hedging foreign branches are normally muted, EXCEPT when they do extreme one-way dumping
+    net_sell_lots = abs(today_net) if today_net < 0 else 0
+    ht_sell_override = (
+        is_foreign
+        and is_high_turnover
+        and (
+            consec_sell >= 5
+            or (
+                net_sell_lots >= max(30, int(wave.today_volume_lots * 0.03))
+                and pre_trade_holding > 0
+                and net_sell_lots >= pre_trade_holding * 0.30
+            )
+        )
+    )
+    if not (is_foreign and is_high_turnover) or ht_sell_override:
         if net_sell_lots >= market_floor:
+            prefix = "[高周轉異常倒貨] " if ht_sell_override else ""
             if pre_trade_holding >= 100 and net_sell_lots >= pre_trade_holding * 0.10:
                 net_sell_pct = net_sell_lots / pre_trade_holding * 100.0
                 branch_alerts.append(
-                    f"單日淨賣超 {net_sell_lots:,} 張 (佔當日量 {abs(net_pct_vol):.1f}%、賣前持股 {net_sell_pct:.1f}%)"
+                    f"{prefix}單日淨賣超 {net_sell_lots:,} 張 (佔當日量 {abs(net_pct_vol):.1f}%、賣前持股 {net_sell_pct:.1f}%)"
                 )
             else:
                 branch_alerts.append(
-                    f"單日大額淨賣 {net_sell_lots:,} 張 (佔當日量 {abs(net_pct_vol):.1f}%)"
+                    f"{prefix}單日大額淨賣 {net_sell_lots:,} 張 (佔當日量 {abs(net_pct_vol):.1f}%)"
                 )
         if (
             avg_20d_sell > 0
@@ -467,7 +509,7 @@ def _build_branch_status(
         wave_records, wave.trading_dates, wave.observation_start, data_date
     )
     early_accum_ratio = _compute_early_accum_ratio(
-        wave_records, wave.trading_dates, wave.trough_date, wave_holding
+        wave_records, wave.trading_dates, wave.observation_start, wave.trough_date, data_date, wave_holding
     )
     buy_5d_win_rate, buy_5d_wins, buy_5d_samples = _compute_buy_5d_win_rate(
         full_records, wave.trading_dates, wave.daily_avg_prices
@@ -722,11 +764,35 @@ def analyze_stock(
         and wave.today_volume_lots > 0
         and chip_flow.foreign_chg >= max(50, int(wave.today_volume_lots * 0.05))
     )
+    if foreign_strong_buy and chip_flow is not None and not foreign_buy_alerts:
+        f_vol_pct = chip_flow.foreign_chg / wave.today_volume_lots * 100.0
+        foreign_buy_alerts.append(
+            f"官方外資當日大買 {chip_flow.foreign_chg:+,} 張 (佔當日量 {f_vol_pct:.1f}%)"
+        )
+
     effective_buy_sig = (
         (len(buy_alerts) > 0 and (has_clear_domestic or has_resonance_buy))
         or len(foreign_buy_alerts) > 0
         or foreign_strong_buy
     )
+
+    top_sellers: list[TopSellerStatus] = []
+    try:
+        today_rep = fetch_range_brokers(stock_id, data_date, data_date)
+        for idx, srow in enumerate(today_rep.sell_top[:5], start=1):
+            top_sellers.append(
+                TopSellerStatus(
+                    rank=idx,
+                    name=srow.name,
+                    is_foreign=is_foreign_broker(srow.name),
+                    buy_lots=srow.buy_lots,
+                    sell_lots=srow.sell_lots,
+                    net_lots=srow.net_lots,
+                    volume_pct=srow.volume_pct,
+                )
+            )
+    except Exception:
+        top_sellers = []
     if has_sell_sig and effective_buy_sig:
         overall_status = "divergent"
     elif has_sell_sig:
@@ -774,4 +840,5 @@ def analyze_stock(
         buy_alerts=buy_alerts,
         foreign_alerts=foreign_alerts,
         foreign_buy_alerts=foreign_buy_alerts,
+        top_sellers=top_sellers,
     )
