@@ -19,6 +19,79 @@ def _signed_cls(val: float) -> str:
     return "num-zero"
 
 
+def _derive_action_stance(r: StockChipMonitorResult) -> tuple[str, str, str]:
+    """Return (stance_label, css_class, concise_reason) for quick intuition."""
+    w = r.wave_info
+    cf = r.chip_flow
+    vol = w.today_volume_lots
+    foreign_net = cf.foreign_chg if cf is not None else sum(b.today_net_lots for b in r.foreign_branches)
+    trust_net = cf.trust_chg if cf is not None else 0
+    inst_net = r.official_inst_net if cf is not None else foreign_net
+    dom_net = sum(b.today_net_lots for b in r.top_branches)
+    margin_chg = cf.margin_chg if (cf is not None and cf.margin_available) else None
+
+    f_heavy_sell = foreign_net <= -max(50, int(vol * 0.05)) if vol > 0 else foreign_net < 0
+    f_clear_buy = foreign_net >= max(30, int(vol * 0.02)) if vol > 0 else foreign_net > 0
+
+    if (r.is_chips_to_retail and f_heavy_sell and dom_net <= 0) or (
+        r.overall_status == "sell" and not r.has_resonance_buy and foreign_net <= 0
+    ):
+        parts: list[str] = []
+        if foreign_net < 0:
+            parts.append(f"外資 {foreign_net:+,}")
+        if trust_net < 0:
+            parts.append(f"投信 {trust_net:+,}")
+        if dom_net < 0:
+            parts.append(f"本土 {dom_net:+,}")
+        if r.is_chips_to_retail and margin_chg is not None:
+            parts.append(f"融資 {margin_chg:+,} 轉散戶")
+        return "看空", "stance-bear", "、".join(parts) or "賣壓主導"
+
+    if (
+        (r.overall_status == "buy" or r.has_resonance_buy or f_clear_buy)
+        and inst_net >= 0
+        and trust_net >= 0
+        and not r.is_chips_to_retail
+        and not r.has_resonance_sell
+        and not r.alerts
+    ):
+        parts = []
+        if foreign_net > 0:
+            parts.append(f"外資 {foreign_net:+,}")
+        if dom_net > 0:
+            parts.append(f"本土 {dom_net:+,}")
+        if margin_chg is not None and margin_chg < 0:
+            parts.append(f"融資 {margin_chg:+,}")
+        return "加碼", "stance-bull", "、".join(parts) or "買盤主導"
+
+    buy_parts: list[str] = []
+    sell_parts: list[str] = []
+    if foreign_net > 0:
+        buy_parts.append(f"外資 {foreign_net:+,}")
+    elif foreign_net < 0:
+        sell_parts.append(f"外資 {foreign_net:+,}")
+    if dom_net > 0:
+        buy_parts.append(f"本土 {dom_net:+,}")
+    elif dom_net < 0:
+        sell_parts.append(f"本土 {dom_net:+,}")
+    if trust_net < -50:
+        sell_parts.append(f"投信 {trust_net:+,}")
+    elif trust_net > 50:
+        buy_parts.append(f"投信 {trust_net:+,}")
+
+    if buy_parts and sell_parts:
+        reason = f"{'／'.join(buy_parts)} 接盤，{'／'.join(sell_parts)} 賣壓"
+    elif margin_chg is not None and margin_chg > 0 and buy_parts:
+        reason = f"{'／'.join(buy_parts)} 承接，融資 {margin_chg:+,}"
+    elif buy_parts:
+        reason = "、".join(buy_parts)
+    elif sell_parts:
+        reason = "、".join(sell_parts)
+    else:
+        reason = "籌碼變化平穩"
+    return "持平", "stance-neutral", reason
+
+
 def _render_period_badge(tags: list[str], count: int) -> str:
     tags_html = " ".join(f'<span class="tag-mini">{_esc(t)}</span>' for t in tags)
     if count >= 3:
@@ -244,6 +317,7 @@ def generate_html_report(
             margin_cell = '<span class="num-zero">待更新</span>'
 
         retail_flag = ' <span class="status-pill status-warn">⚠️ 轉散戶</span>' if r.is_chips_to_retail else ""
+        stance_lbl, stance_cls, stance_reason = _derive_action_stance(r)
 
         overview_rows.append(
             f"""
@@ -259,6 +333,10 @@ def generate_html_report(
               </td>
               <td class="col-right">{vol:,}</td>
               <td>{status_label}{retail_flag}</td>
+              <td>
+                <span class="stance-pill {stance_cls}">{_esc(stance_lbl)}</span>
+                <div class="sub-pct">{_esc(stance_reason)}</div>
+              </td>
               <td class="col-right"><span class="{_signed_cls(foreign_net)}">{foreign_net:+,}</span><div class="sub-pct">佔量{f_vol_pct or ' 0%'}</div></td>
               <td class="col-right"><span class="{_signed_cls(dom_net)}">{dom_net:+,}</span></td>
               <td class="col-center">{margin_cell}</td>
@@ -366,6 +444,10 @@ def generate_html_report(
             status_badges.append(
                 f'<span class="status-pill status-buy">🔥 共振加碼({r.top3_net_buy_count}家)</span>'
             )
+        stance_lbl, stance_cls, stance_reason = _derive_action_stance(r)
+        status_badges.append(
+            f'<span class="stance-pill {stance_cls}" title="{_esc(stance_reason)}">建議：{_esc(stance_lbl)}（{_esc(stance_reason)}）</span>'
+        )
 
         today_chg_cls = _signed_cls(w.today_change_pct)
         gain_cls = _signed_cls(w.gain_from_trough_pct)
@@ -624,6 +706,10 @@ def generate_html_report(
     .status-warn {{ background: #ffedd5; color: #9a3412; }}
     .status-muted {{ background: #f1f5f9; color: #475569; }}
     .status-ok {{ background: #dcfce7; color: #166534; }}
+    .stance-pill {{ display: inline-block; padding: 3px 9px; border-radius: 6px; font-size: 12px; font-weight: 800; }}
+    .stance-bull {{ background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }}
+    .stance-neutral {{ background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }}
+    .stance-bear {{ background: #dcfce7; color: #15803d; border: 1px solid #86efac; }}
     .card-meta {{ display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: #475569; }}
     .hold-total {{ color: var(--purple); }}
     .table-wrap {{ overflow-x: auto; }}
@@ -714,6 +800,7 @@ def generate_html_report(
                 <th class="col-right">收盤 / 漲跌</th>
                 <th class="col-right">成交量(張)</th>
                 <th>狀態</th>
+                <th>操作建議</th>
                 <th class="col-right">外資今日(張)</th>
                 <th class="col-right">本土前{top_n}今日(張)</th>
                 <th class="col-center">融資變動</th>

@@ -717,7 +717,16 @@ def analyze_stock(
     has_sell_sig = len(alerts) > 0 or len(foreign_alerts) > 0
     # Only count domestic buy signals toward overall "buy" badge if there is a clear domestic main force
     # or if foreign long-hold branches are also buying
-    effective_buy_sig = (len(buy_alerts) > 0 and has_clear_domestic) or len(foreign_buy_alerts) > 0
+    foreign_strong_buy = (
+        chip_flow is not None
+        and wave.today_volume_lots > 0
+        and chip_flow.foreign_chg >= max(50, int(wave.today_volume_lots * 0.05))
+    )
+    effective_buy_sig = (
+        (len(buy_alerts) > 0 and (has_clear_domestic or has_resonance_buy))
+        or len(foreign_buy_alerts) > 0
+        or foreign_strong_buy
+    )
     if has_sell_sig and effective_buy_sig:
         overall_status = "divergent"
     elif has_sell_sig:
